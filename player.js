@@ -23,8 +23,22 @@ function cardValue(card){
 }
 
 class Player {
-    constructor(cardHand = []){
+    constructor(){
         //create new player and recieve hand from dealer
+        this.cardHand = [];  //dont recieve hand from dealer on insatnace creation
+        this.pair = { pairCards: [],
+                      pairValue: 0
+                    };
+        
+        //how to status???
+        //examine cardhand then make decisions
+        //need to have pairs in hand, highest pairs,
+        //ruuns and the value of the runs
+        //possible runs, possible pairs
+    }
+
+    recieveHand(cardHand = []){
+        //get the hand from the dealer
         this.cardHand = cardHand;
     }
 
@@ -34,6 +48,10 @@ class Player {
         return this.cardHand.splice(0, numOfCards);
     }
 
+    // pairValuing(){
+    //     this.pair.pairValue = cardValues[this.pair.pairCards[0].charAt(0)] * 2;
+    // }
+
     checkForPair(){
         //check hand to see if you are holding a pair
         //put the pairin array position 0 & 1 for discard
@@ -41,12 +59,19 @@ class Player {
         for(let i = 0; i<this.cardHand.length; i++){
             for(let j = i+1; j<this.cardHand.length; j++){
                 if(this.cardHand[i].charAt(0) == this.cardHand[j].charAt(0)){
+                    this.pair.pairCards.push(this.cardHand[i]);
+                    this.pair.pairCards.push(this.cardHand[j]);
+                    //does this need to be a seperate function - gets error from calling within the statement see pairValuing() 
+                    this.pair.pairValue = cardValues[this.pair.pairCards[0].charAt(0)] * 2;
+                    //pairValuing();
                     return 'pair found'; //what to do wwhen pair found??
                 }
             }
         }
         return 'No pairs'; //what to do with no pair found???
     }
+
+
 
     checkForTriple(){
 
@@ -83,7 +108,7 @@ class Player {
     }
 
     checkHighestHand(){
-        
+
     }
 
     checkForYan(){

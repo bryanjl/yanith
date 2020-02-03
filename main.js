@@ -2,7 +2,8 @@ let Player = require('./player.js');
 let Dealer = require('./dealer.js');
 
 let dealer = new Dealer();
-let player1 = new Player(dealer.compHand);
+let player1 = new Player();
+player1.recieveHand(dealer.compHand);
 
 dealer.shuffle();
 dealer.deal();
@@ -18,3 +19,5 @@ console.log(`${dealer.getUserHand} /// ${player1.getCardHand} /// ${dealer.getDi
 console.log(player1.checkForHighCard());
 
 console.log(player1.checkForPair());
+
+console.log(player1.pair);
