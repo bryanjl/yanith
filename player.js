@@ -75,7 +75,8 @@ class Player {
         //if two pairs which one is higher??
         for(let i = 0; i<this.cardHand.length; i++){
             for(let j = i+1; j<this.cardHand.length; j++){
-                if(this.cardHand[i].charAt(0) == this.cardHand[j].charAt(0)){                    
+                if(this.cardHand[i].charAt(0) == this.cardHand[j].charAt(0)){    
+                    //if there is already a pair set the second pair to a new status                
                     if(this.pair.pairCards.length > 0){
                         this.secondPair.pairCards.push(this.cardHand[i]);
                         this.secondPair.pairCards.push(this.cardHand[j]);
@@ -100,9 +101,7 @@ class Player {
 
 
     checkForTriple(){
-        //check hand to see if you are holding a pair
-        //put the pairin array position 0 & 1 for discard
-        //if two pairs which one is higher??
+        //check for a three of a kind
         for(let i = 0; i<this.cardHand.length; i++){
             for(let j = i+1; j<this.cardHand.length; j++){
                 if(this.cardHand[i].charAt(0) == this.cardHand[j].charAt(0)){
@@ -125,9 +124,7 @@ class Player {
     }
 
     checkForQuad(){
-        //check hand to see if you are holding a pair
-        //put the pairin array position 0 & 1 for discard
-        //if two pairs which one is higher??
+        //Check for a 4 of a kind
         for(let i = 0; i<this.cardHand.length; i++){
             for(let j = i+1; j<this.cardHand.length; j++){
                 if(this.cardHand[i].charAt(0) == this.cardHand[j].charAt(0)){
@@ -157,15 +154,51 @@ class Player {
     checkForRun(){
         //check hand to see if holding a run
         //put the run in array position 0, 1 & 2 for discard
-        let tempArr = [];
+        
+        //find the cards with same suit and put them in a temp array
+        let tempArr = [];   
         for(let i = 0; i<this.cardHand.length; i++){
-            for(let j = i; j<this.cardHand.length; j++){
-                let suit = this.carHand[i].charAt(1);
+            tempArr.push(this.cardHand[i]);
+            for(let j = i+1; j<this.cardHand.length; j++){
+                let suit = tempArr[0].charAt(1);
                 if(suit == this.cardHand[j].charAt(1)){
-                    count++;
-                }
+                    tempArr.push(this.cardHand[j]);
+                }                
+            }
+            //if tempArr is greater than three there is a possibility of a run
+            if(tempArr.length >= 3){
+                tempArr.sort();
+                break;
+            } else {            //if less than three reset the temp arr
+                tempArr = [];
             }
         }
+
+        //console.log(tempArr);
+
+        //check to see if the run exists by comparing the value of card
+        //!!!!!!!!!!!!!!!!!!!Need to get it to examine Jack, Queen, and king, and Ace!!!!!!!!!!!!!!!!
+        let x = parseInt(tempArr[0], 10);
+        for(let i = 1; i<tempArr.length; i++){
+            let y = parseInt(tempArr[i]);
+            if (y == x+1){
+                x = y;
+            } else {
+                return;
+            }
+        }
+
+
+        //set the status perimeiters
+        this.run.runCards = tempArr;
+        this.run.exist = true;
+
+        //count the cards
+        let count = 0;
+        for(let i = 0; i<this.run.runCards.length; i++){
+            count += cardValues[this.run.runCards[i].charAt(0)];
+        }
+        this.run.runValue = count;      
     }
 
     checkForHighCard(){

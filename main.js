@@ -5,7 +5,7 @@ let dealer = new Dealer();
 let player1 = new Player();
 //player1.recieveHand(dealer.compHand);
 
-player1.recieveHand(['5D', '2D', '2H', '5C', '2S']);
+player1.recieveHand(['3D', '6D', '4D', '5C', '5D']);
 
 dealer.shuffle();
 dealer.deal();
@@ -25,6 +25,7 @@ console.log(`${dealer.getUserHand} /// ${player1.getCardHand} /// ${dealer.getDi
 player1.checkForPair();
 player1.checkForTriple();
 player1.checkForQuad();
+player1.checkForRun();
 
 
 console.log(player1.pair);
@@ -34,3 +35,5 @@ console.log(player1.secondPair);
 console.log(player1.triple);
 
 console.log(player1.quad);
+
+console.log(player1.run);
