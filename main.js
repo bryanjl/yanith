@@ -3,21 +3,34 @@ let Dealer = require('./dealer.js');
 
 let dealer = new Dealer();
 let player1 = new Player();
-player1.recieveHand(dealer.compHand);
+//player1.recieveHand(dealer.compHand);
+
+player1.recieveHand(['5D', '2D', '2H', '5C', '2S']);
 
 dealer.shuffle();
 dealer.deal();
 
 console.log(`${dealer.getUserHand} /// ${player1.getCardHand} ///${dealer.getShuffledDeck.length}`);
 
-let discarded = player1.discard(1);
-dealer.addToDiscard(discarded);
-player1.pickUpCard(dealer.nextCard);
+//let discarded = player1.discard(1);
+//dealer.addToDiscard(discarded);
+//player1.pickUpCard(dealer.nextCard);
 
 console.log(`${dealer.getUserHand} /// ${player1.getCardHand} /// ${dealer.getDiscardPile} /// ${dealer.getShuffledDeck.length}`);
 
-console.log(player1.checkForHighCard());
+// console.log(player1.checkForHighCard());
 
-console.log(player1.checkForPair());
+// console.log(player1.checkForPair());
+
+player1.checkForPair();
+player1.checkForTriple();
+player1.checkForQuad();
+
 
 console.log(player1.pair);
+
+console.log(player1.secondPair);
+
+console.log(player1.triple);
+
+console.log(player1.quad);
