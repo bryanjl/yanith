@@ -149,7 +149,6 @@ class Checks {
         //returns a sorted array of the run if true
         //returns empty array if no run found
         sentArr.sort((a,b) => cardPos[a.charAt(0)] - cardPos[b.charAt(0)]);
-        console.log(sentArr);
         if(sentArr.length>=3){
             let x = cardPos[sentArr[0].charAt(0)];
             for(let i = 1; i<sentArr.length; i++){
@@ -173,7 +172,7 @@ class Checks {
         if(sentArr.length == 0){
             return -1;
         } else {
-            let count = 0
+            let count = 0;
             for(let i = 0; i<sentArr.length; i++){
                 count += cardValues[sentArr[i].charAt(0)];
             }

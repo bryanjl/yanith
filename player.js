@@ -41,38 +41,28 @@ let check = new Checks;
 class Player {
     constructor(cardHand){
         //create new player and recieve hand from dealer
-        this.cardHand = cardHand;  //dont recieve hand from dealer on insatnace creation
+        //do checks on the card hand and fill in statuses for later logic
+        this.cardHand = cardHand;  
         this.pair = { exist: false,
                       pairCards: check.pairs(this.cardHand),
-                      pairValue: check.handValue(check.pairs(this.cardHand))
+                      pairValue: check.handValue(check.pairs(this.cardHand)[0])
                     };
         this.secondPair = { exist: false,
-                            pairCards: [],
-                            pairValue: 0
+                            pairCards: check.pairs(this.cardHand),
+                            pairValue: check.handValue(check.pairs(this.cardHand)[1])
                           };
         this.triple = { exist: false,
-                        tripleCards: [],
-                        tripleValue: 0
+                        tripleCards: check.triples(this.cardHand),
+                        tripleValue: check.handValue(check.triples(this.cardHand))
                       };
         this.quad = { exist: false,
-                      quadCards: [],
-                      quadValue: 0
+                      quadCards: check.quads(this.cardHand),
+                      quadValue: check.handValue(check.quads(this.cardHand))
                     };
         this.run = { exist: false,
-                     runCards: [],
-                     runValue: 0
+                     runCards: check.runs(check.suit(this.cardHand)),
+                     runValue: check.handValue(check.runs(check.suit(this.cardHand)))
                    };
-        
-        //how to status???
-        //examine cardhand then make decisions
-        //need to have pairs in hand, highest pairs,
-        //ruuns and the value of the runs
-        //possible runs, possible pairs
-    }
-
-    recieveHand(cardHand = []){
-        //get the hand from the dealer
-        this.cardHand = cardHand;
     }
 
     discard(numOfCards){

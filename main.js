@@ -14,6 +14,11 @@ dealer.deal();
 
 console.log(dealer.getCompHand);
 let player1 = new Player(dealer.getCompHand);
+console.log(player1.pair);
+console.log(player1.secondPair);
+console.log(player1.triple);
+console.log(player1.quad);
+console.log(player1.run);
 //console.log(getCardHand);
 //console.log(player1.pair);
 
