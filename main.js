@@ -5,10 +5,14 @@ let dealer = new Dealer();
 let player1 = new Player();
 //player1.recieveHand(dealer.compHand);
 
-player1.recieveHand(['4H', '9D', 'JD', '1D', 'QD']);
+ player1.recieveHand(['AD', 'KD', 'JD', '1D', 'QD']);
+
+
 
 dealer.shuffle();
 dealer.deal();
+//player1.recieveHand(dealer.getCompHand);
+
 
 console.log(`${dealer.getUserHand} /// ${player1.getCardHand} ///${dealer.getShuffledDeck.length}`);
 
