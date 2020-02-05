@@ -5,7 +5,7 @@ let dealer = new Dealer();
 let player1 = new Player();
 //player1.recieveHand(dealer.compHand);
 
-player1.recieveHand(['3D', '6D', '4D', '5C', '5D']);
+player1.recieveHand(['4H', '9D', 'JD', '1D', 'QD']);
 
 dealer.shuffle();
 dealer.deal();

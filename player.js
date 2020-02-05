@@ -16,6 +16,24 @@ const cardValues = {
     'R': 0
 };
 
+const cardPos = {
+    'A': 14,
+    '2': 2,
+    '3': 3,
+    '4': 4,
+    '5': 5,
+    '6': 6,
+    '7': 7,
+    '8': 8,
+    '9': 9,
+    '1': 10,
+    'J': 11,
+    'Q': 12,
+    'K': 13,
+    'B': 0,
+    'R': 0
+};
+
 function cardValue(card){
     let cardNum = card.charAt(0);
     let cardVal = cardValues[cardNum];
@@ -167,7 +185,8 @@ class Player {
             }
             //if tempArr is greater than three there is a possibility of a run
             if(tempArr.length >= 3){
-                tempArr.sort();
+                //tempArr.sort();
+                console.log(tempArr);
                 break;
             } else {            //if less than three reset the temp arr
                 tempArr = [];
@@ -175,12 +194,41 @@ class Player {
         }
 
         //console.log(tempArr);
+        // (a,b) => cardPos[a.charAt(0)] > cardPos[b.charAt(0)] ? b : a
+        for(let i = 0; i<tempArr.length-1; i++){
+            //check for J, Q, K, A
+            if(cardPos[tempArr[i].charAt(0)] > cardPos[tempArr[i+1].charAt(0)]){
+                let tempHold = tempArr[i];
+                tempArr[i] = tempArr[i+1];
+                tempArr[i+1] = tempHold;
+                i=0;
+            }
+
+        }
+
+        console.log(tempArr);
+
 
         //check to see if the run exists by comparing the value of card
         //!!!!!!!!!!!!!!!!!!!Need to get it to examine Jack, Queen, and king, and Ace!!!!!!!!!!!!!!!!
-        let x = parseInt(tempArr[0], 10);
+        let x = cardPos[tempArr[0].charAt(0)];
+        console.log(x);
+        let y = 0;
         for(let i = 1; i<tempArr.length; i++){
-            let y = parseInt(tempArr[i]);
+            //check for J, Q, K, A
+            if (tempArr[i].charAt(0) == 'J'){
+                y = 11;
+            } else if (tempArr[i].charAt(0) == 'Q'){
+                y = 12;
+            } else if (tempArr[i].charAt(0) == 'K'){
+                y = 13;
+            } else if (tempArr[i].charAt(0) == 'A'){
+                y = 14;
+            } else {
+                y = cardPos[tempArr[i].charAt(0)];
+            }
+
+            
             if (y == x+1){
                 x = y;
             } else {
