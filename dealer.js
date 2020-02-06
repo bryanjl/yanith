@@ -65,7 +65,9 @@ class Dealer{
     }
 
     addToDiscard(val){
-        this.discardPile.unshift(val);
+        for(let i = 0; i<val.length; i++){
+            this.discardPile.unshift(val[i]);
+        }
     }
 }
 

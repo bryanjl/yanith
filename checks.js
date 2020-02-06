@@ -103,13 +103,15 @@ class Checks {
     highCard(sentArr = []){
         //returns the highest card in thearray that was sent
         sentArr.sort((a,b) => cardValues[b.charAt(0)] - cardValues[a.charAt(0)]);
-        return sentArr[0]
+        let highCardArr = new Array(1);
+        highCardArr[0] = sentArr[0];
+        return highCardArr;
     }
 
     lowCard(sentArr = []){
         //returns the lowest card from the array that was sent
         sentArr.sort((a,b) => cardValues[a.charAt(0)] - cardValues[b.charAt(0)]);
-        return sentArr[0]
+        return sentArr[0];
     }
 
     yanith(sentArr= []){

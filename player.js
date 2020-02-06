@@ -63,12 +63,25 @@ class Player {
                      runCards: check.runs(check.suit(this.cardHand)),
                      runValue: check.handValue(check.runs(check.suit(this.cardHand)))
                    };
+        this.highCard = { exist: false,
+                          highestCard: check.highCard(this.cardHand),
+                          cardValue: check.handValue(check.highCard(this.cardHand))
+                        };
     }
 
-    discard(numOfCards){
-        //Place one or more cards on to the discard pile
-        //numOfCards(how many cards) position will always be at beginnning of array
-        return this.cardHand.splice(0, numOfCards);
+    discard(toDiscardArr = []){
+        //recieve an array then pop the values out to new array
+        //return new array to be put on discard pile in game
+        let discardArr = [];
+        for (let i = 0; i<toDiscardArr.length; i++){
+            for (let j = 0; j<this.cardHand.length; j++){
+                if(toDiscardArr[i] == this.cardHand[j]){
+                    discardArr.push(this.cardHand[j]);
+                    this.cardHand.splice(j, 1);
+                }
+            }
+        }
+        return discardArr;
     }
 
     // pairValuing(){
@@ -90,9 +103,16 @@ class Player {
         this.cardHand.push(card);
     }
 
+    logic(){
+        //find highest value of statuses and return array to be discarded
+        return this.highCard.highestCard;
+    }
+    
     get getCardHand(){
         return this.cardHand;
     }
+
+
 
 }
 
