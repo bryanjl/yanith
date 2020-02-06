@@ -90,7 +90,26 @@ class Player {
 
     
 
-    checkHighestHand(){
+    highestHand(){
+        //going to be long winded but not sure how to do it anyother way
+
+        let handValueArr = new Array(6);
+        handValueArr[0] = this.pair.pairValue;
+        handValueArr[1] = this.secondPair.pairValue;
+        handValueArr[2] = this.triple.tripleValue;
+        handValueArr[3] = this.quad.quadValue;
+        handValueArr[4] = this.run.runValue;
+        handValueArr[5] = this.highCard.cardValue;
+
+        let pos = -1;
+        let x = 0;
+        for(let i = 0; i<handValueArr.length; i++){
+            if(handValueArr[i] > x){
+                pos = i;
+                x = handValueArr[i];
+            }
+        }
+        return pos;
 
     }
 

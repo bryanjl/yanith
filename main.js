@@ -45,6 +45,8 @@ function compTurn(compHand){
 
     player1.pickUpCard(dealer.nextCard);
     console.log(player1.getCardHand);
+
+    console.log(player1.highestHand());
         //player module does checks and determines what to do
         //!!!!does main do discarding or player module??  --game recieves cards to discard and puts in pile??
         //!!!!does main do pick up or player module??? --game picks up card and hands it to comp??
