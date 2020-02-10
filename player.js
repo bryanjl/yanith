@@ -113,6 +113,22 @@ class Player {
 
     }
 
+    getHandToDiscard(pos){
+        if(pos == 0){
+            return this.pair.pairCards[0];
+        }else if(pos == 1){
+            return this.secondPair.pairCards[1];
+        }else if(pos == 2){
+            return this.triple.cardHand;
+        }else if(pos == 3){
+            return this.quad.cardHand;
+        }else if(pos == 4){
+            return this.run.cardHand;
+        }else if(pos == 5){
+            return this.highCard.highestCard;
+        }
+    }
+
     checkForYan(){
         //check to see if hand value is 5 or under to call yanith
     }

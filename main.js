@@ -26,8 +26,6 @@ function newRound(){
 function compTurn(compHand){
     //inttiate new player with hand from previous hand
     let player1 = new Player(compHand);
-    let toDiscard = player1.logic();
-    let toPile = player1.discard(toDiscard);
 
     console.log(player1.pair);
     console.log(player1.secondPair);
@@ -36,17 +34,16 @@ function compTurn(compHand){
     console.log(player1.run);
     console.log(player1.highCard);
 
-    console.log(toDiscard);
-    console.log(dealer.getDiscardPile);
-
+    let highestHand = player1.highestHand();
+    //console.log(highestHand);
+    let toDiscard = player1.getHandToDiscard(highestHand);
+    let toPile = player1.discard(toDiscard);
     dealer.addToDiscard(toPile);
-    console.log(dealer.getDiscardPile);
-    console.log(player1.getCardHand);
-
     player1.pickUpCard(dealer.nextCard);
-    console.log(player1.getCardHand);
+    
+    compHand = player1.getCardHand;
 
-    console.log(player1.highestHand());
+    
         //player module does checks and determines what to do
         //!!!!does main do discarding or player module??  --game recieves cards to discard and puts in pile??
         //!!!!does main do pick up or player module??? --game picks up card and hands it to comp??
@@ -62,3 +59,11 @@ console.log(dealer.getCompHand);
 let compHand = dealer.getCompHand;
 
 compTurn(compHand);
+
+console.log(compHand);
+console.log(dealer.getDiscardPile);
+
+compTurn(compHand);
+
+console.log(compHand);
+console.log(dealer.getDiscardPile);
