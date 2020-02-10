@@ -131,6 +131,12 @@ class Player {
 
     checkForYan(){
         //check to see if hand value is 5 or under to call yanith
+        let yanith = check.yanith(this.cardHand);
+        if(yanith == -1){
+            return -1;
+        } else {
+            return 'YANITH';
+        }
     }
 
     pickUpCard(card){

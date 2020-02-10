@@ -34,14 +34,19 @@ function compTurn(compHand){
     console.log(player1.run);
     console.log(player1.highCard);
 
-    let highestHand = player1.highestHand();
-    //console.log(highestHand);
-    let toDiscard = player1.getHandToDiscard(highestHand);
-    let toPile = player1.discard(toDiscard);
-    dealer.addToDiscard(toPile);
-    player1.pickUpCard(dealer.nextCard);
-    
-    compHand = player1.getCardHand;
+    if(player1.checkForYan() == -1){
+
+        let highestHand = player1.highestHand();
+        //console.log(highestHand);
+        let toDiscard = player1.getHandToDiscard(highestHand);
+        let toPile = player1.discard(toDiscard);
+        dealer.addToDiscard(toPile);
+        player1.pickUpCard(dealer.nextCard);
+        
+        compHand = player1.getCardHand;
+    } else {
+        return 'Yanith';
+    }
 
     
         //player module does checks and determines what to do
@@ -58,12 +63,17 @@ console.log(dealer.getCompHand);
 //let player1 = new Player(dealer.getCompHand);
 let compHand = dealer.getCompHand;
 
-compTurn(compHand);
+    
+while(compTurn(compHand) != 'Yanith'){
+    
 
+    console.log(compHand);
+    console.log(dealer.getDiscardPile);
+}
 console.log(compHand);
-console.log(dealer.getDiscardPile);
 
-compTurn(compHand);
 
-console.log(compHand);
-console.log(dealer.getDiscardPile);
+// compTurn(compHand);
+
+// console.log(compHand);
+// console.log(dealer.getDiscardPile);
