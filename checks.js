@@ -111,7 +111,9 @@ class Checks {
     lowCard(sentArr = []){
         //returns the lowest card from the array that was sent
         sentArr.sort((a,b) => cardValues[a.charAt(0)] - cardValues[b.charAt(0)]);
-        return sentArr[0];
+        let lowCardArr = new Array(1);
+        lowCardArr[0] = sentArr[0];
+        return lowCardArr;
     }
 
     yanith(sentArr= []){

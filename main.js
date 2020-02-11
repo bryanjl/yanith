@@ -25,7 +25,7 @@ function newRound(){
 
 function compTurn(compHand){
     //inttiate new player with hand from previous hand
-    let player1 = new Player(compHand);
+    let player1 = new Player(compHand, dealer.getTopCard);
 
     console.log(player1.pair);
     console.log(player1.secondPair);
@@ -33,6 +33,11 @@ function compTurn(compHand){
     console.log(player1.quad);
     console.log(player1.run);
     console.log(player1.highCard);
+
+
+    
+    console.log(player1.cardHand);
+    console.log(player1.futureHand);
 
     if(player1.checkForYan() == -1){
 
@@ -59,18 +64,17 @@ function userTurn(){
 
 }
 
-console.log(dealer.getCompHand);
+//console.log(dealer.getCompHand);
 //let player1 = new Player(dealer.getCompHand);
 let compHand = dealer.getCompHand;
-
-    
-while(compTurn(compHand) != 'Yanith'){
-    
-
-    console.log(compHand);
-    console.log(dealer.getDiscardPile);
-}
 console.log(compHand);
+console.log(dealer.getDiscardPile);
+
+
+compTurn(compHand);
+    
+
+//console.log(compHand);
 
 
 // compTurn(compHand);

@@ -64,6 +64,14 @@ class Dealer{
         return this.discardPile;
     }
 
+    get getTopCard(){
+        return this.discardPile[0];
+    }
+
+    removeTopCard(){
+        return this.discardPile.shift();
+    }
+
     addToDiscard(val){
         for(let i = 0; i<val.length; i++){
             this.discardPile.unshift(val[i]);

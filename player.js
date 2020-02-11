@@ -39,10 +39,15 @@ let Checks = require('./checks.js');
 let check = new Checks;
 
 class Player {
-    constructor(cardHand){
+    constructor(cardHand, discardCard){
         //create new player and recieve hand from dealer
         //do checks on the card hand and fill in statuses for later logic
-        this.cardHand = cardHand;  
+        this.cardHand = cardHand; 
+        this.potHand = cardHand.slice();
+        this.potHand.push(discardCard); 
+        this.discardCard = [discardCard];
+
+
         this.pair = { exist: false,
                       pairCards: check.pairs(this.cardHand),
                       pairValue: check.handValue(check.pairs(this.cardHand)[0])
@@ -67,6 +72,29 @@ class Player {
                           highestCard: check.highCard(this.cardHand),
                           cardValue: check.handValue(check.highCard(this.cardHand))
                         };
+
+                    this.futureHand = {
+                        pair: {
+                            pairCards: check.pairs(this.potHand),
+                            pairValue: check.handValue(check.pairs(this.potHand)[0])
+                        },
+                        triple: {
+                            tripleCards: check.triples(this.potHand),
+                            tripleValue: check.handValue(check.triples(this.potHand))
+                        },
+                        quad: {
+                            quadCards: check.quads(this.potHand),
+                            quadValue: check.handValue(check.quads(this.potHand))
+                        },
+                        run: {
+                            runCards: check.runs(this.potHand),
+                            quadValue: check.handValue(check.runs(this.potHand))
+                        },
+                        lowCard: {
+                            lowCard: this.discardCard,
+                            cardValue: check.handValue(this.discardCard)
+                        }
+            };
     }
 
     discard(toDiscardArr = []){
@@ -83,12 +111,7 @@ class Player {
         }
         return discardArr;
     }
-
-    // pairValuing(){
-    //     this.pair.pairValue = cardValues[this.pair.pairCards[0].charAt(0)] * 2;
-    // }
-
-    
+   
 
     highestHand(){
         //going to be long winded but not sure how to do it anyother way
@@ -147,6 +170,13 @@ class Player {
     logic(){
         //find highest value of statuses and return array to be discarded
         return this.highCard.highestCard;
+    }
+
+    cardToPickup(){
+        //!!!!!!!!!!!!work on this method to determine if picking up the discard is worth or not
+        if(this.futureHand.pair.pairValue > this.pair.pairValue){
+            this.discardPickup = true;
+        } else if(this.)
     }
     
     get getCardHand(){
