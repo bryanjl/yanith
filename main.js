@@ -26,6 +26,9 @@ function newRound(){
 function compTurn(compHand){
     //inttiate new player with hand from previous hand
     let player1 = new Player(compHand, dealer.getTopCard);
+    //check to see if using the discard card in the future will make a higher value
+    //sets the state of discardPickup to true
+    player1.cardToPickup();
 
     console.log(player1.pair);
     console.log(player1.secondPair);
@@ -37,27 +40,58 @@ function compTurn(compHand){
 
     
     console.log(player1.cardHand);
+    console.log(player1.potHand);
     console.log(player1.futureHand);
+    
+    console.log(player1.discardPickup);
 
     if(player1.checkForYan() == -1){
-
+        //get the position of thehighest hand value
         let highestHand = player1.highestHand();
-        //console.log(highestHand);
+        //use position to get an array of cards with highest value
         let toDiscard = player1.getHandToDiscard(highestHand);
-        let toPile = player1.discard(toDiscard);
-        dealer.addToDiscard(toPile);
-        player1.pickUpCard(dealer.nextCard);
+
+
+        //if discardPickup is true then compare the current hand and future hand for the same card
+        if(player1.discardPickup == true){
+            //get the cards in an array for the future hand 
+            let futureHighHandPos = player1.futureHighestHand();
+            let futureCards = player1.getFutureHandToDiscard(futureHighHandPos);
+            //compare the hands to see if they contain the same hands
+            //gets boolean of true if hands contain the same card
+            //gets boolean false if hands do not contain the same card
+            if(player1.compareHands(futureCards, toDiscard)){
+                //if true is recieved --> need to go back to get next highest hand to discard
+                
+
+
+            } else {
+                //discard the hand if false is recieved
+                let toPile = player1.discard(toDiscard);
+                //pickup from discard pile
+                player1.pickUpCard(dealer.getTopCard);
+                //remove the card from the discardpile
+                dealer.removeTopCard();
+                //add the discarded cards to the discard pile
+                dealer.addToDiscard(toPile);                
         
-        compHand = player1.getCardHand;
+                //set compHand to the current hand in player for next turn
+                compHand = player1.getCardHand;
+            }
+        } else {
+            //discard highest hand
+            //pickup card from deck
+            let toPile = player1.discard(toDiscard);
+            dealer.addToDiscard(toPile);
+            player1.pickUpCard(dealer.nextCard);
+            
+            //set compHand to the current hand for next turn
+            compHand = player1.getCardHand;            
+        }
     } else {
+        //The current hand is under 5 and yanih is declared
         return 'Yanith';
     }
-
-    
-        //player module does checks and determines what to do
-        //!!!!does main do discarding or player module??  --game recieves cards to discard and puts in pile??
-        //!!!!does main do pick up or player module??? --game picks up card and hands it to comp??
-    //recieve hand at end of comp turn to hold for next turn
 }
 
 function userTurn(){
@@ -74,7 +108,7 @@ console.log(dealer.getDiscardPile);
 compTurn(compHand);
     
 
-//console.log(compHand);
+console.log(compHand);
 
 
 // compTurn(compHand);

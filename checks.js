@@ -184,6 +184,20 @@ class Checks {
         }
     }
 
+    doesHandContain(futureHand, toDiscard){
+        //check to see if the cards to discard are needed for the next turn
+        //return true if hand does contain the same card
+        //return false if hand doesn't contain any of the same cards
+        for(let i = 0; i<futureHand; i++){
+            for(let j = i+1; j<toDiscard; j++){
+                if(futureHand[i] == toDiscard[j]){
+                    return true;
+                }    
+            }            
+        }
+        return false;
+    }
+
 }
 
 module.exports = Checks;
