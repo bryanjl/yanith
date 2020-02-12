@@ -50,8 +50,6 @@ function compTurn(compHand){
         let highestHand = player1.highestHand();
         //use position to get an array of cards with highest value
         let toDiscard = player1.getHandToDiscard(highestHand);
-
-
         //if discardPickup is true then compare the current hand and future hand for the same card
         if(player1.discardPickup == true){
             //get the cards in an array for the future hand 
@@ -62,9 +60,19 @@ function compTurn(compHand){
             //gets boolean false if hands do not contain the same card
             if(player1.compareHands(futureCards, toDiscard)){
                 //if true is recieved --> need to go back to get next highest hand to discard
-                
-
-
+                //turn into loop and keep trying until the hand is not the same;
+                for(let i = 0; i<6; i++){
+                    if(player1.compareHands(futureCards, toDiscard)){
+                        //if sending the a value to this function it shouldnt count it in its calcs
+                        //this way it can find the next highest hand
+                        //get the position of thehighest hand value
+                        highestHand = player1.highestHand(highestHand);
+                        //use position to get an array of cards with highest value
+                        toDiscard = player1.getHandToDiscard(highestHand);
+                    } else {
+                        break;
+                    }
+                }
             } else {
                 //discard the hand if false is recieved
                 let toPile = player1.discard(toDiscard);
@@ -73,8 +81,7 @@ function compTurn(compHand){
                 //remove the card from the discardpile
                 dealer.removeTopCard();
                 //add the discarded cards to the discard pile
-                dealer.addToDiscard(toPile);                
-        
+                dealer.addToDiscard(toPile);            
                 //set compHand to the current hand in player for next turn
                 compHand = player1.getCardHand;
             }
@@ -83,14 +90,13 @@ function compTurn(compHand){
             //pickup card from deck
             let toPile = player1.discard(toDiscard);
             dealer.addToDiscard(toPile);
-            player1.pickUpCard(dealer.nextCard);
-            
+            player1.pickUpCard(dealer.nextCard);            
             //set compHand to the current hand for next turn
             compHand = player1.getCardHand;            
         }
     } else {
         //The current hand is under 5 and yanih is declared
-        return 'Yanith';
+        console.log('Yanith');
     }
 }
 
@@ -104,9 +110,10 @@ let compHand = dealer.getCompHand;
 console.log(compHand);
 console.log(dealer.getDiscardPile);
 
-
-compTurn(compHand);
-    
+for(let i=0; i<10; i++){
+    compTurn(compHand);
+    console.log(compHand);
+}
 
 console.log(compHand);
 

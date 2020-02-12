@@ -149,7 +149,7 @@ class Player {
         }
     }   
 
-    highestHand(){
+    highestHand(sentNum = -1){
         //puts the values of the current hands into an array
         let handValueArr = new Array(6);
         handValueArr[0] = this.pair.pairValue;
@@ -164,7 +164,7 @@ class Player {
         let pos = -1;
         let x = 0;
         for(let i = 0; i<handValueArr.length; i++){
-            if(handValueArr[i] > x){
+            if(handValueArr[i] > x && sentNum != i){
                 pos = i;
                 x = handValueArr[i];
             }
