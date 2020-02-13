@@ -96,7 +96,7 @@ function compTurn(compHand){
         }
     } else {
         //The current hand is under 5 and yanih is declared
-        console.log('Yanith');
+        return 'Yanith';
     }
 }
 
@@ -107,15 +107,20 @@ function userTurn(){
 //console.log(dealer.getCompHand);
 //let player1 = new Player(dealer.getCompHand);
 let compHand = dealer.getCompHand;
-console.log(compHand);
-console.log(dealer.getDiscardPile);
+//console.log(compHand);
+//console.log(dealer.getDiscardPile);
 
-for(let i=0; i<10; i++){
-    compTurn(compHand);
-    console.log(compHand);
+for(let i = 0; i<10; i++){
+    let yan = compTurn(compHand);
+    console.log(i);
+    console.log('discard: ' + dealer.getDiscardPile);
+    if(yan == 'Yanith'){
+        console.log('YANITH');
+        break;
+    }
 }
 
-console.log(compHand);
+console.log('final hand: ' + compHand);
 
 
 // compTurn(compHand);
