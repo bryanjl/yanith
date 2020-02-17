@@ -1,0 +1,25 @@
+.body{
+    margin: 0;
+    padding: 0;
+}
+
+#board-table{
+    height: 95vh;
+    width: 95vw;
+    border: 1px solid black;
+    background-color: green;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    align-items: center;
+    justify-items: center;
+    position: relative;
+    
+}
+
+
+img{
+    
+    position: absolute;    
+}

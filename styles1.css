@@ -1,0 +1,11 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+
+#board{
+    border: 1px solid black;
+    width: 95vw;
+    height: 95vh;
+    margin: 0 auto;
+}
