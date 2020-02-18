@@ -5,7 +5,8 @@ let cardWidth = boardWidth / 11;
 
 
 
-
+//for computer hand top = =0
+//user hand bottom = 0
 let card1Space = cardWidth * 3;
 let card2Space = cardWidth * 4;
 let card3Space = cardWidth * 5;
@@ -70,26 +71,67 @@ card5.style.bottom = 0;
 card5.style.left = card5Space + 'px';
 
 
-card5.addEventListener('click',function(){
-    let topPos = dCard2.offsetTop;
-    let leftPos = dCard2.offsetLeft;
-    let cardtopPos = card5.offsetTop;
-    let cardleftPos = card5.offsetLeft;
-    let timer = setInterval(move, 10);
 
-    function move(){
+//event listeners for user hand
+card1.addEventListener('click', liftCards);
+card2.addEventListener('click', liftCards);
+card3.addEventListener('click', liftCards);
+card4.addEventListener('click', liftCards);
+card5.addEventListener('click', liftCards);
+
+let playHandBtn = document.getElementById('play-hand');
+playHandBtn.addEventListener('click', moveToDiscard);
+
+let cards = [card1, card2, card3, card4, card5];
+
+function moveToDiscard(){
+    for(let card of cards){
+        if(card.style.bottom != '0px'){
+            card.style.transition = 'all 1s';
+            card.style.boxShadow = 'none';
+            card.style.bottom = dCard2.style.bottom;
+            card.style.left = dCard2.style.left;
+        }
+    }
+}
+
+//lift cards for selection
+function liftCards(){
+    if(this.style.bottom == '0px'){
+        this.style.bottom = '15px';
+        this.style.boxShadow = '5px 5px black';
+    } else {
+        this.style.bottom = '0px';
+        this.style.boxShadow = 'none';
+    }
+}
+
+
+
+
+
+
+
+// card5.addEventListener('click',function(){
+//     let topPos = dCard2.offsetTop;
+//     let leftPos = dCard2.offsetLeft;
+//     let cardtopPos = card5.offsetTop;
+//     let cardleftPos = card5.offsetLeft;
+//     let timer = setInterval(move, 10);
+
+//     function move(){
         
 
 
-        if (cardtopPos == topPos && cardleftPos == leftPos){
-            clearInterval(timer);
-        } else if(cardtopPos <= ) {
-            cardtopPos--;
-            cardleftPos--;  
-            card5.style.top = cardtopPos + 'px';
-            card5.style.left = cardleftPos + 'p x';
-        }
-    }
-});
+//         if (cardtopPos == topPos && cardleftPos == leftPos){
+//             clearInterval(timer);
+//         } else if(cardtopPos <= ) {
+//             cardtopPos--;
+//             cardleftPos--;  
+//             card5.style.top = cardtopPos + 'px';
+//             card5.style.left = cardleftPos + 'p x';
+//         }
+//     }
+// });
 
 
