@@ -200,4 +200,4 @@ class Checks {
 
 }
 
-module.exports = Checks;
+export { Checks };

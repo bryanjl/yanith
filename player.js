@@ -36,7 +36,9 @@ const cardPos = {
 
 //intitate the checks module
 //puts it in the check reference
-let Checks = require('./checks.js');
+import { Checks } from './checks.js';
+
+//let Checks = require('./checks.js');
 let check = new Checks;
 
 class Player {
@@ -242,4 +244,4 @@ class Player {
     }
 }
 
-module.exports = Player;
+export { Player };

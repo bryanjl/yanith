@@ -147,17 +147,24 @@ card4.addEventListener('click', liftCards);
 card5.addEventListener('click', liftCards);
 
 let playHandBtn = document.getElementById('play-hand');
-playHandBtn.addEventListener('click', moveToDiscard);
+let count = 0;
+playHandBtn.addEventListener('click', function(){
+    count++;
+    moveToDiscard();
+});
 
 let cards = [card1, card2, card3, card4, card5];
 
 function moveToDiscard(){
+    
     for(let card of cards){
         if(card.style.bottom != '0px'){
             card.style.transition = 'all 1s';
             card.style.boxShadow = 'none';
             card.style.bottom = dCard2.style.bottom;
             card.style.left = dCard2.style.left;
+            //count++;//dCard2.src = card.src;
+            card.style.zIndex = 100 + count;
         }
     }
 }
@@ -176,7 +183,7 @@ function liftCards(){
 
 
 
-export userInit;
+export { userInit };
 
 
 // card5.addEventListener('click',function(){

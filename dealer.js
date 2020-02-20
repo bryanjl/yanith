@@ -79,7 +79,7 @@ class Dealer{
     }
 }
 
-export Dealer;
+export { Dealer };
 
 // console.log(`Table: ${discardPile} Computer's Hand: ${compHand} User's Hand: ${userHand}`);
 // console.log(`${shuffledDeck} length: ${shuffledDeck.length}`);
