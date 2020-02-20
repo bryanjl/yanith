@@ -1,3 +1,63 @@
+const cardDeck = {
+    'AD': './svg/d1.svg',
+    '2D': './svg/d2.svg',
+    '3D': './svg/d3.svg', 
+    '4D': './svg/d4.svg',
+    '5D': './svg/d5.svg', 
+    '6D': './svg/d6.svg',
+    '7D': './svg/d7.svg',
+    '8D': './svg/d8.svg',
+    '9D': './svg/d9.svg',
+    '10D': './svg/d10.svg',
+    'JD': './svg/d11.svg',
+    'QD': './svg/d12.svg',
+    'KD': './svg/d13.svg',
+    'AH': './svg/h1.svg',
+    '2H': './svg/h2.svg',
+    '3H': './svg/h3.svg',
+    '4H': './svg/h4.svg',
+    '5H': './svg/h5.svg',
+    '6H': './svg/h6.svg',
+    '7H': './svg/h7.svg',
+    '8H': './svg/h8.svg',
+    '9H': './svg/h9.svg',
+    '10H': './svg/h10.svg',
+    'JH': './svg/h11.svg',
+    'QH': './svg/h12.svg',
+    'KH': './svg/h13.svg',
+    'AS': './svg/s1.svg',
+    '2S': './svg/s2.svg',
+    '3S': './svg/s3.svg',
+    '4S': './svg/s4.svg',
+    '5S': './svg/s5.svg',
+    '6S': './svg/s6.svg',
+    '7S': './svg/s7.svg',
+    '8S': './svg/s8.svg',
+    '9S': './svg/s9.svg',
+    '10S': './svg/s10.svg',
+    'JS': './svg/s11.svg',
+    'QS': './svg/s12.svg',
+    'KS': './svg/s13.svg',
+    'AC': './svg/c1.svg',
+    '2C': './svg/c2.svg',
+    '3C': './svg/c3.svg',
+    '4C': './svg/c4.svg',
+    '5C': './svg/c5.svg',
+    '6C': './svg/c6.svg',
+    '7C': './svg/c7.svg',
+    '8C': './svg/c8.svg',
+    '9C': './svg/c9.svg',
+    '10C': './svg/c10.svg',
+    'JC': './svg/c11.svg',
+    'QC': './svg/c12.svg',
+    'KC': './svg/c13.svg',
+    'R_JOK': './svg/joker_red.svg',
+    'B_JOK': './svg/joker_black.svg'
+};
+
+
+
+
 let board = document.getElementById('board-table');
 let boardWidth = board.offsetWidth;
 let boardHeight = board.offsetHeight;
@@ -46,30 +106,37 @@ dCard2.style.width = cardWidth + 'px';
 dCard1.style.left = (boardWidth / 2) - cardWidth + 'px';
 dCard2.style.left = (boardWidth / 2)  + 'px';
 
+// userInit(['AH', '2H', '3H', '4H', '5H']);
 
-//user cards
-let card1 = document.getElementById('card1');
-card1.style.width = cardWidth + 'px';
-let card2 = document.getElementById('card2');
-card2.style.width = cardWidth + 'px';
-let card3 = document.getElementById('card3');
-card3.style.width = cardWidth + 'px';
-let card4 = document.getElementById('card4');
-card4.style.width = cardWidth + 'px';
-let card5 = document.getElementById('card5');
-card5.style.width = cardWidth + 'px';
+function userInit(cardArr = []){
+    //user cards
+    let card1 = document.getElementById('card1');
+    card1.src = cardDeck[cardArr[0]];
+    card1.style.width = cardWidth + 'px';
+    let card2 = document.getElementById('card2');
+    card2.src = cardDeck[cardArr[1]];
+    card2.style.width = cardWidth + 'px';
+    let card3 = document.getElementById('card3');
+    card3.src = cardDeck[cardArr[2]];
+    card3.style.width = cardWidth + 'px';
+    let card4 = document.getElementById('card4');
+    card4.src = cardDeck[cardArr[3]];
+    card4.style.width = cardWidth + 'px';
+    let card5 = document.getElementById('card5');
+    card5.src = cardDeck[cardArr[4]];
+    card5.style.width = cardWidth + 'px';
 
-card1.style.bottom = 0;
-card1.style.left = card1Space + 'px';
-card2.style.bottom = 0;
-card2.style.left = card2Space + 'px';
-card3.style.bottom = 0;
-card3.style.left = card3Space + 'px';
-card4.style.bottom = 0;
-card4.style.left = card4Space + 'px';
-card5.style.bottom = 0;
-card5.style.left = card5Space + 'px';
-
+    card1.style.bottom = 0;
+    card1.style.left = card1Space + 'px';
+    card2.style.bottom = 0;
+    card2.style.left = card2Space + 'px';
+    card3.style.bottom = 0;
+    card3.style.left = card3Space + 'px';
+    card4.style.bottom = 0;
+    card4.style.left = card4Space + 'px';
+    card5.style.bottom = 0;
+    card5.style.left = card5Space + 'px';
+}
 
 
 //event listeners for user hand
@@ -109,7 +176,7 @@ function liftCards(){
 
 
 
-
+export userInit;
 
 
 // card5.addEventListener('click',function(){

@@ -1,5 +1,10 @@
-let Player = require('./player.js');
-let Dealer = require('./dealer.js');
+// let Player = require('./player.js');
+// let Dealer = require('./dealer.js');
+// let userInit = require('./cards.js');
+
+import { userInit } from './cards';
+import { Dealer } from './dealer';
+import { Player } from './player';
 
 let dealer = new Dealer();
 
@@ -12,6 +17,7 @@ let dealer = new Dealer();
 dealer.shuffle();
 dealer.deal();
 
+userInit(dealer.getUserHand);
 
 //console.log(getCardHand);
 //console.log(player1.pair);
