@@ -117,9 +117,7 @@ dCard2.style.left = (boardWidth / 2)  + 'px';
 let backOfCardImg = document.createElement('img');
 backOfCardImg.src = './svg/cardback_blue.svg';
 dCard1.appendChild(backOfCardImg);
-dCard1.firstChild.addEventListener('click', function(){
-    addCardToHand('AH');
-});
+
 
 
 
@@ -155,130 +153,121 @@ card5.style.left = card5Space + 'px';
 
 
 let cards = [card1, card2, card3, card4, card5];
+let cCards =[cCard1, cCard2, cCard3, cCard4, cCard5];
 
-
-
-function userInit(cardArr = []){
-    let pos = 0;
-    for(let card of cardArr){
-        let cardPicture = document.createElement('img');
-        cardPicture.src = cardDeck[card];
-        cards[pos].appendChild(cardPicture);
-        pos++
-    }
-}
-
-function discardInit(sentCard){
-    let discardCard = document.createElement('img');
-    discardCard.src = cardDeck[sentCard];
-    dCard2.appendChild(discardCard);
-}
-
-function compInit(){
-    let compDiv = [cCard1, cCard2, cCard3, cCard4, cCard5];
-    for(let div of compDiv){        
-        let compCard = document.createElement('img');
-        compCard.src = './svg/cardback_blue.svg';
-        div.appendChild(compCard);
-    }
-}
-
-//event listeners for user hand
-card1.addEventListener('click', liftCards);
-card2.addEventListener('click', liftCards);
-card3.addEventListener('click', liftCards);
-card4.addEventListener('click', liftCards);
-card5.addEventListener('click', liftCards);
-
-
-
-//listen to the play hand button
-//move the cards to discard -- the card on the right is always on top
-//shift the cards in the user hand
-let playHandBtn = document.getElementById('play-hand');
-playHandBtn.addEventListener('click', function(){
-    getSelectedCards(); 
-    moveToDiscard();
-     shiftCards();
-});
-
-
-//shift cards in user hand all the way to the left
-function shiftCards(){
-    for(let i = 0; i<4; i++){
-        if(cards[i].firstChild == null && cards[i+1].firstChild != null){
-            cards[i].appendChild(cards[i+1].firstChild);
-            i = -1;
-        } 
-    }    
-}
-
-//move the selected cards to the discarded pile
-function moveToDiscard(){    
-    for(let card of cards){
-        if(card.firstChild != null && card.firstChild.offsetTop != 0){
-            card.firstChild.style.boxShadow = 'none';
-            card.firstChild.style.bottom = '0px';
-            dCard2.appendChild(card.firstChild);
+class Graphics {
+    //sets up user cards graphics
+    userInit(cardArr = []){
+        let pos = 0;
+        for(let card of cardArr){
+            let cardPicture = document.createElement('img');
+            cardPicture.src = cardDeck[card];
+            cards[pos].appendChild(cardPicture);
+            pos++
         }
     }
-}
 
-// returns an array of the cards that are sent to the discard pile
-function getSelectedCards(){
-    let retArr = [];
-    for(let card of cards){
-        if(card.firstChild != null && card.firstChild.offsetTop != 0){
-            let address = card.firstChild.src;    
-            let pattern = address.match(/\w?\w\w\.svg/g);   
-            retArr.push(Object.keys(cardDeck).find(key => cardDeck[key] === './svg/' + pattern));
+    //sets up discard graphics
+    discardInit(sentCard){
+        let discardCard = document.createElement('img');
+        discardCard.src = cardDeck[sentCard];
+        dCard2.appendChild(discardCard);
+    }
+
+    //sets up computer grahics
+    compInit(){
+        let compDiv = [cCard1, cCard2, cCard3, cCard4, cCard5];
+        for(let div of compDiv){        
+            let compCard = document.createElement('img');
+            compCard.src = './svg/cardback_blue.svg';
+            div.appendChild(compCard);
         }
     }
-    return retArr;
-}
 
-//lift cards for selection
-function liftCards(){
-    if(this.firstChild.style.bottom == '0px'){
-        this.firstChild.style.bottom = '15px';
-        this.firstChild.style.boxShadow = '5px 5px black';
-    } else {
-        this.firstChild.style.bottom = '0px';
-        this.firstChild.style.boxShadow = 'none';
+
+    //shift cards in user hand all the way to the left
+    shiftCards(){
+        for(let i = 0; i<4; i++){
+            if(cards[i].firstChild == null && cards[i+1].firstChild != null){
+                cards[i].appendChild(cards[i+1].firstChild);
+                i = -1;
+            } 
+        }    
     }
-}
 
-//pickup card from deck
-//sent a string of the card value
-function addCardToHand(cardToPickUp){
-    for(let card of cards){
-        if (card.firstChild != null){
-            continue;
+    removeCompCards(length){
+        for(let i = 0; i<5; i++){
+            if(i >= length && cCards[i].firstChild != null){
+                cCards[i].removeChild(cCards[i].firstChild);
+            }
+        }
+    }
+
+    moveCompToDiscard(compDiscard){
+        let compDis = document.createElement('img');
+        compDis.src = cardDeck[compDiscard];
+        dCard2.appendChild(compDis);
+    }
+
+    //move the selected cards to the discarded pile
+    moveToDiscard(){    
+        for(let card of cards){
+            if(card.firstChild != null && card.firstChild.offsetTop != 0){
+                card.firstChild.style.boxShadow = 'none';
+                card.firstChild.style.bottom = '0px';
+                dCard2.appendChild(card.firstChild);
+            }
+        }
+    }
+
+    // returns an array of the cards that are sent to the discard pile
+    getSelectedCards(){
+        let retArr = [];
+        for(let card of cards){
+            if(card.firstChild != null && card.firstChild.offsetTop != 0){
+                let address = card.firstChild.src;    
+                let pattern = address.match(/\w?\w\w\.svg/g);   
+                retArr.push(Object.keys(cardDeck).find(key => cardDeck[key] === './svg/' + pattern));
+            }
+        }
+        return retArr;
+    }
+
+    //lift cards for selection
+    liftCards(){
+        if(this.firstChild.style.bottom == '0px'){
+            this.firstChild.style.bottom = '15px';
+            this.firstChild.style.boxShadow = '5px 5px black';
         } else {
-            let pickupCard = document.createElement('img');
-            pickupCard.src = cardDeck[cardToPickUp];
-            card.appendChild(pickupCard);
-            break;
+            this.firstChild.style.bottom = '0px';
+            this.firstChild.style.boxShadow = 'none';
         }
+    }
+
+    //pickup card from deck
+    //sent a string of the card value
+    addCardToHand(cardToPickUp){
+        for(let card of cards){
+            if (card.firstChild != null){
+                continue;
+            } else {
+                let pickupCard = document.createElement('img');
+                pickupCard.src = cardDeck[cardToPickUp];
+                card.appendChild(pickupCard);
+                break;
+            }
+        }
+    }
+
+    //moves the card over 150px
+    //need to send something to know that user wants to pick up this card
+    discardClick(){    
+        let pos = dCard2.firstChild.offsetLeft;
+        dCard2.firstChild.style.left = (pos + 150) + 'px';
     }
 }
 
-dCard2.addEventListener('click', function() {
-    discardClick();
-});
-
-//moves the card over 150px
-//need to send something to know that user wants to pick up this card
-function discardClick(){    
-    let pos = dCard2.firstChild.offsetLeft;
-    dCard2.firstChild.style.left = (pos + 150) + 'px';
- }
-
-
-
-
-
-export { userInit, discardInit, compInit };
+export { Graphics };
 
 
 

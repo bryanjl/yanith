@@ -1,31 +1,84 @@
-// let Player = require('./player.js');
-// let Dealer = require('./dealer.js');
-// let userInit = require('./cards.js');
-
-import { userInit } from './cards.js';
+import { Graphics } from './cards.js';
 import { Dealer } from './dealer.js';
 import { Player } from './player.js';
 
+
+//pointers to document elements 
+//computer hand
+let cCard1 = document.getElementById('c-card1');
+let cCard2 = document.getElementById('c-card2');
+let cCard3 = document.getElementById('c-card3');
+let cCard4 = document.getElementById('c-card4');
+let cCard5 = document.getElementById('c-card5');
+
+//pointers to document elements 
+//discard pile and deck
+let dCard1 = document.getElementById('d-card1');
+let dCard2 = document.getElementById('d-card2');
+
+
+//pointers to document elements 
+//user hand
+let card1 = document.getElementById('card1');
+let card2 = document.getElementById('card2');
+let card3 = document.getElementById('card3');
+let card4 = document.getElementById('card4');
+let card5 = document.getElementById('card5');
+
+//pointer for play hand button
+let playHandBtn = document.getElementById('play-hand');
+
+
+
+//new dealer
+//shuffle and deal to user and comp
 let dealer = new Dealer();
-
-//player1.recieveHand(dealer.compHand);
-
- //player1.recieveHand(['AD', 'KD', 'JD', '1D', 'QD']);
-
-
-
 dealer.shuffle();
 dealer.deal();
 
-userInit(dealer.getUserHand);
+//intitialize graphics
+//set init for comp, discard, user
+let graphic = new Graphics();
+graphic.userInit(dealer.getUserHand);
+graphic.discardInit(dealer.getDiscardPile[0]);
+graphic.compInit();
 
-//console.log(getCardHand);
-//console.log(player1.pair);
+function userTurn(){
+    //play hand button event listener
+    //listen to the play hand button
+    //move the cards to discard -- the card on the right is always on top
+    //shift the cards in the user hand
+    playHandBtn.addEventListener('click', function(){
+        graphic.getSelectedCards(); 
+        graphic.moveToDiscard();
+        graphic.shiftCards();
+    });
+    
+    //event listeners for user hand
+    //lifts the cards the user selects
+    card1.addEventListener('click', graphic.liftCards);
+    card2.addEventListener('click', graphic.liftCards);
+    card3.addEventListener('click', graphic.liftCards);
+    card4.addEventListener('click', graphic.liftCards);
+    card5.addEventListener('click', graphic.liftCards);
 
-//player1.recieveHand(dealer.getCompHand);
+    //event listener for a user click to the discard pile
+    dCard2.addEventListener('click', function() {
+        discardClick();
+    });
+
+    //event listener for clicking the shuffled deck
+    dCard1.firstChild.addEventListener('click', function(){
+        addCardToHand('AH');
+    });
+
+    
 
 
-function newRound(){
+
+ 
+    
+
 
 }
 
@@ -87,7 +140,11 @@ function compTurn(compHand){
                 //remove the card from the discardpile
                 dealer.removeTopCard();
                 //add the discarded cards to the discard pile
-                dealer.addToDiscard(toPile);            
+                dealer.addToDiscard(toPile);
+                
+                //console.log(`to pile: ${toPile[0]}`);
+                graphic.removeCompCards(player1.getCardHand.length);
+                graphic.moveCompToDiscard(toPile[0]);            
                 //set compHand to the current hand in player for next turn
                 compHand = player1.getCardHand;
             }
@@ -96,8 +153,10 @@ function compTurn(compHand){
             //pickup card from deck
             let toPile = player1.discard(toDiscard);
             dealer.addToDiscard(toPile);
+            graphic.moveCompToDiscard(toPile[0]);
             player1.pickUpCard(dealer.nextCard);            
             //set compHand to the current hand for next turn
+            graphic.removeCompCards(player1.getCardHand.length);
             compHand = player1.getCardHand;            
         }
     } else {
@@ -106,16 +165,13 @@ function compTurn(compHand){
     }
 }
 
-function userTurn(){
 
-}
 
-//console.log(dealer.getCompHand);
-//let player1 = new Player(dealer.getCompHand);
+//get the intital comphand
+//comphandwill be stored here for next turn
 let compHand = dealer.getCompHand;
-//console.log(compHand);
-//console.log(dealer.getDiscardPile);
 
+//A TEST TO SEE IF COMPUTER CAN GET THROUGH 10 HANDS
 for(let i = 0; i<10; i++){
     let yan = compTurn(compHand);
     console.log(i);
@@ -127,6 +183,14 @@ for(let i = 0; i<10; i++){
 }
 
 console.log('final hand: ' + compHand);
+
+
+
+
+
+
+
+
 
 
 // compTurn(compHand);
