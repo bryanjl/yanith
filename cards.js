@@ -58,6 +58,7 @@ const cardDeck = {
 
 
 
+
 let board = document.getElementById('board-table');
 let boardWidth = board.offsetWidth;
 let boardHeight = board.offsetHeight;
@@ -73,18 +74,23 @@ let card3Space = cardWidth * 5;
 let card4Space = cardWidth * 6;
 let card5Space = cardWidth * 7;
 
-//computer cards
+//computer cards height and width
 let cCard1 = document.getElementById('c-card1');
 cCard1.style.width = cardWidth + 'px';
+cCard1.style.height = (boardHeight/6) + 'px';
 let cCard2 = document.getElementById('c-card2');
 cCard2.style.width = cardWidth + 'px';
+cCard2.style.height = (boardHeight/6) + 'px';
 let cCard3 = document.getElementById('c-card3');
 cCard3.style.width = cardWidth + 'px';
+cCard3.style.height = (boardHeight/6) + 'px';
 let cCard4 = document.getElementById('c-card4');
 cCard4.style.width = cardWidth + 'px';
+cCard4.style.height = (boardHeight/6) + 'px';
 let cCard5 = document.getElementById('c-card5');
 cCard5.style.width = cardWidth + 'px';
-
+cCard5.style.height = (boardHeight/6) + 'px';
+//computer hand divs position on the board
 cCard1.style.top = 0;
 cCard1.style.left = card1Space + 'px';
 cCard2.style.top = 0;
@@ -97,45 +103,75 @@ cCard5.style.top = 0;
 cCard5.style.left = card5Space + 'px';
 
 
-//discard pile
+//discard pile height and width
 let dCard1 = document.getElementById('d-card1');
 dCard1.style.width = cardWidth + 'px';
+dCard1.style.height = (boardHeight/6) + 'px';
 let dCard2 = document.getElementById('d-card2');
 dCard2.style.width = cardWidth + 'px';
-
+dCard2.style.height = (boardHeight/6) + 'px';
+//discard pile positioning on the board
 dCard1.style.left = (boardWidth / 2) - cardWidth + 'px';
 dCard2.style.left = (boardWidth / 2)  + 'px';
 
-// userInit(['AH', '2H', '3H', '4H', '5H']);
+let backOfCardImg = document.createElement('img');
+backOfCardImg.src = './svg/cardback_blue.svg';
+dCard1.appendChild(backOfCardImg);
+dCard1.firstChild.addEventListener('click', function(){
+    addCardToHand('AH');
+});
+
+
+
+//player card div set up get the width and the height
+//intialize the div names
+let card1 = document.getElementById('card1');
+card1.style.width = cardWidth + 'px';
+card1.style.height = (boardHeight/6) + 'px';
+let card2 = document.getElementById('card2');
+card2.style.width = cardWidth + 'px';
+card2.style.height = (boardHeight/6) + 'px';
+let card3 = document.getElementById('card3');
+card3.style.width = cardWidth + 'px';
+card3.style.height = (boardHeight/6) + 'px';
+let card4 = document.getElementById('card4');
+card4.style.width = cardWidth + 'px';
+card4.style.height = (boardHeight/6) + 'px';
+let card5 = document.getElementById('card5');
+card5.style.width = cardWidth + 'px';
+card5.style.height = (boardHeight/6) + 'px';
+
+//position the card divs on the board
+card1.style.bottom = 0;
+card1.style.left = card1Space + 'px';
+card2.style.bottom = 0;
+card2.style.left = card2Space + 'px';
+card3.style.bottom = 0;
+card3.style.left = card3Space + 'px';
+card4.style.bottom = 0;
+card4.style.left = card4Space + 'px';
+card5.style.bottom = 0;
+card5.style.left = card5Space + 'px';
+
+
+let cards = [card1, card2, card3, card4, card5];
+
+
 
 function userInit(cardArr = []){
-    //user cards
-    let card1 = document.getElementById('card1');
-    card1.src = cardDeck[cardArr[0]];
-    card1.style.width = cardWidth + 'px';
-    let card2 = document.getElementById('card2');
-    card2.src = cardDeck[cardArr[1]];
-    card2.style.width = cardWidth + 'px';
-    let card3 = document.getElementById('card3');
-    card3.src = cardDeck[cardArr[2]];
-    card3.style.width = cardWidth + 'px';
-    let card4 = document.getElementById('card4');
-    card4.src = cardDeck[cardArr[3]];
-    card4.style.width = cardWidth + 'px';
-    let card5 = document.getElementById('card5');
-    card5.src = cardDeck[cardArr[4]];
-    card5.style.width = cardWidth + 'px';
+    let pos = 0;
+    for(let card of cardArr){
+        let cardPicture = document.createElement('img');
+        cardPicture.src = cardDeck[card];
+        cards[pos].appendChild(cardPicture);
+        pos++
+    }
+}
 
-    card1.style.bottom = 0;
-    card1.style.left = card1Space + 'px';
-    card2.style.bottom = 0;
-    card2.style.left = card2Space + 'px';
-    card3.style.bottom = 0;
-    card3.style.left = card3Space + 'px';
-    card4.style.bottom = 0;
-    card4.style.left = card4Space + 'px';
-    card5.style.bottom = 0;
-    card5.style.left = card5Space + 'px';
+function discardInit(sentCard){
+    let discardCard = document.createElement('img');
+    discardCard.src = cardDeck[sentCard];
+    dCard2.appendChild(discardCard);
 }
 
 
@@ -146,44 +182,79 @@ card3.addEventListener('click', liftCards);
 card4.addEventListener('click', liftCards);
 card5.addEventListener('click', liftCards);
 
+
+
+//listen to the play hand button
+//move the cards to discard -- the card on the right is always on top
+//shift the cards in the user hand
 let playHandBtn = document.getElementById('play-hand');
-let count = 0;
 playHandBtn.addEventListener('click', function(){
-    count++;
-    moveToDiscard();
+     moveToDiscard();
+     shiftCards();
 });
 
-let cards = [card1, card2, card3, card4, card5];
 
-function moveToDiscard(){
-    
+//shift cards in user hand all the way to the left
+function shiftCards(){
+    for(let i = 0; i<4; i++){
+        if(cards[i].firstChild == null && cards[i+1].firstChild != null){
+            cards[i].appendChild(cards[i+1].firstChild);
+            i = -1;
+        } 
+    }    
+}
+
+//move the selected cards to the discarded pile
+function moveToDiscard(){    
     for(let card of cards){
-        if(card.style.bottom != '0px'){
-            card.style.transition = 'all 1s';
-            card.style.boxShadow = 'none';
-            card.style.bottom = dCard2.style.bottom;
-            card.style.left = dCard2.style.left;
-            //count++;//dCard2.src = card.src;
-            card.style.zIndex = 100 + count;
+        if(card.firstChild != null && card.firstChild.offsetTop != 0){
+            card.firstChild.style.boxShadow = 'none';
+            card.firstChild.style.bottom = '0px';
+            dCard2.appendChild(card.firstChild);
         }
     }
 }
 
 //lift cards for selection
 function liftCards(){
-    if(this.style.bottom == '0px'){
-        this.style.bottom = '15px';
-        this.style.boxShadow = '5px 5px black';
+    if(this.firstChild.style.bottom == '0px'){
+        this.firstChild.style.bottom = '15px';
+        this.firstChild.style.boxShadow = '5px 5px black';
     } else {
-        this.style.bottom = '0px';
-        this.style.boxShadow = 'none';
+        this.firstChild.style.bottom = '0px';
+        this.firstChild.style.boxShadow = 'none';
     }
 }
 
+//pickup card from deck
+//sent a string of the card value
+function addCardToHand(cardToPickUp){
+    for(let card of cards){
+        if (card.firstChild != null){
+            continue;
+        } else {
+            let pickupCard = document.createElement('img');
+            pickupCard.src = cardDeck[cardToPickUp];
+            card.appendChild(pickupCard);
+            break;
+        }
+    }
+}
+
+dCard2.addEventListener('click', function() {
+    discardClick();
+});
+
+function discardClick(){    
+    let pos = dCard2.firstChild.offsetLeft;
+    dCard2.firstChild.style.left = (pos + 150) + 'px';
+ }
 
 
 
-export { userInit };
+
+
+export { userInit, discardInit };
 
 
 // card5.addEventListener('click',function(){
