@@ -174,6 +174,14 @@ function discardInit(sentCard){
     dCard2.appendChild(discardCard);
 }
 
+function compInit(){
+    let compDiv = [cCard1, cCard2, cCard3, cCard4, cCard5];
+    for(let div of compDiv){        
+        let compCard = document.createElement('img');
+        compCard.src = './svg/cardback_blue.svg';
+        div.appendChild(compCard);
+    }
+}
 
 //event listeners for user hand
 card1.addEventListener('click', liftCards);
@@ -189,7 +197,8 @@ card5.addEventListener('click', liftCards);
 //shift the cards in the user hand
 let playHandBtn = document.getElementById('play-hand');
 playHandBtn.addEventListener('click', function(){
-     moveToDiscard();
+    getSelectedCards(); 
+    moveToDiscard();
      shiftCards();
 });
 
@@ -213,6 +222,19 @@ function moveToDiscard(){
             dCard2.appendChild(card.firstChild);
         }
     }
+}
+
+// returns an array of the cards that are sent to the discard pile
+function getSelectedCards(){
+    let retArr = [];
+    for(let card of cards){
+        if(card.firstChild != null && card.firstChild.offsetTop != 0){
+            let address = card.firstChild.src;    
+            let pattern = address.match(/\w?\w\w\.svg/g);   
+            retArr.push(Object.keys(cardDeck).find(key => cardDeck[key] === './svg/' + pattern));
+        }
+    }
+    return retArr;
 }
 
 //lift cards for selection
@@ -245,6 +267,8 @@ dCard2.addEventListener('click', function() {
     discardClick();
 });
 
+//moves the card over 150px
+//need to send something to know that user wants to pick up this card
 function discardClick(){    
     let pos = dCard2.firstChild.offsetLeft;
     dCard2.firstChild.style.left = (pos + 150) + 'px';
@@ -254,29 +278,7 @@ function discardClick(){
 
 
 
-export { userInit, discardInit };
+export { userInit, discardInit, compInit };
 
-
-// card5.addEventListener('click',function(){
-//     let topPos = dCard2.offsetTop;
-//     let leftPos = dCard2.offsetLeft;
-//     let cardtopPos = card5.offsetTop;
-//     let cardleftPos = card5.offsetLeft;
-//     let timer = setInterval(move, 10);
-
-//     function move(){
-        
-
-
-//         if (cardtopPos == topPos && cardleftPos == leftPos){
-//             clearInterval(timer);
-//         } else if(cardtopPos <= ) {
-//             cardtopPos--;
-//             cardleftPos--;  
-//             card5.style.top = cardtopPos + 'px';
-//             card5.style.left = cardleftPos + 'p x';
-//         }
-//     }
-// });
 
 
