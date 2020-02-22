@@ -1,6 +1,7 @@
 import { Graphics } from './cards.js';
 import { Dealer } from './dealer.js';
 import { Player } from './player.js';
+import { Checks } from './checks.js';
 
 
 //pointers to document elements 
@@ -42,16 +43,47 @@ let graphic = new Graphics();
 graphic.userInit(dealer.getUserHand);
 graphic.discardInit(dealer.getDiscardPile[0]);
 graphic.compInit();
+turnOnListeners();
 
-function userTurn(){
+//intialize checks module;
+let check = new Checks();
+
+let handVal;
+let discardClicked = false;
+//turn on all event listeners for the user 
+function turnOnListeners(){
     //play hand button event listener
     //listen to the play hand button
     //move the cards to discard -- the card on the right is always on top
     //shift the cards in the user hand
     playHandBtn.addEventListener('click', function(){
-        graphic.getSelectedCards(); 
-        graphic.moveToDiscard();
-        graphic.shiftCards();
+        let userArr = graphic.getSelectedCards(); 
+        if(userArr.length == 0){
+            alert('Please Select Cards to Play');
+        } else {            
+            handVal = check.checkAll(userArr);
+            if (handVal == -1){
+                alert('You Cannot Play Those Cards Together')
+            } else {
+                dealer.addToDiscard(graphic.getSelectedCards());
+                graphic.moveToDiscard();
+                
+                if(graphic.getDiscardClicked == false){
+                    graphic.shiftCards();
+                    graphic.addCardToHand(dealer.nextCard);
+                } else {
+                    graphic.setDiscardClicked(false);
+                    graphic.shiftCards();
+                    dealer.removeTopCard();
+                    graphic.addDiscardToHand();
+                }
+                
+                dealer.updateUserHand(graphic.getUnselectedCards());
+                console.log(dealer.getDiscardPile);
+                console.log(dealer.getShuffledDeck)
+                console.log(dealer.getUserHand);
+            }
+        }       
     });
     
     //event listeners for user hand
@@ -64,22 +96,42 @@ function userTurn(){
 
     //event listener for a user click to the discard pile
     dCard2.addEventListener('click', function() {
-        discardClick();
+        discardClicked = true;
+        graphic.discardClick();
     });
 
     //event listener for clicking the shuffled deck
     dCard1.firstChild.addEventListener('click', function(){
         addCardToHand('AH');
     });
+}
 
+
+//turn off all the user's event listeners
+function turnOffListeners(){
+    //play hand button 
+    playHandBtn.removeEventListener('click', function(){
+        graphic.getSelectedCards(); 
+        graphic.moveToDiscard();
+        graphic.shiftCards();
+    });
     
+    //event listeners for user hand
+    card1.removeEventListener('click', graphic.liftCards);
+    card2.removeEventListener('click', graphic.liftCards);
+    card3.removeEventListener('click', graphic.liftCards);
+    card4.removeEventListener('click', graphic.liftCards);
+    card5.removeEventListener('click', graphic.liftCards);
 
+    //event listener for a user click to the discard pile
+    dCard2.removeEventListener('click', function() {
+        discardClick();
+    });
 
-
- 
-    
-
-
+    //event listener for clicking the shuffled deck
+    dCard1.firstChild.removeEventListener('click', function(){
+        addCardToHand('AH');
+    });
 }
 
 function compTurn(compHand){
@@ -172,15 +224,15 @@ function compTurn(compHand){
 let compHand = dealer.getCompHand;
 
 //A TEST TO SEE IF COMPUTER CAN GET THROUGH 10 HANDS
-for(let i = 0; i<10; i++){
-    let yan = compTurn(compHand);
-    console.log(i);
-    console.log('discard: ' + dealer.getDiscardPile);
-    if(yan == 'Yanith'){
-        console.log('YANITH');
-        break;
-    }
-}
+// for(let i = 0; i<10; i++){
+//     let yan = compTurn(compHand);
+//     console.log(i);
+//     console.log('discard: ' + dealer.getDiscardPile);
+//     if(yan == 'Yanith'){
+//         console.log('YANITH');
+//         break;
+//     }
+// }
 
 console.log('final hand: ' + compHand);
 

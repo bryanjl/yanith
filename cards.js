@@ -155,9 +155,12 @@ card5.style.left = card5Space + 'px';
 let cards = [card1, card2, card3, card4, card5];
 let cCards =[cCard1, cCard2, cCard3, cCard4, cCard5];
 
+let movedCard;
+
 class Graphics {
     //sets up user cards graphics
     userInit(cardArr = []){
+        this.discardClicked = false;
         let pos = 0;
         for(let card of cardArr){
             let cardPicture = document.createElement('img');
@@ -233,6 +236,19 @@ class Graphics {
         return retArr;
     }
 
+    // returns an array of the cards that are left in the hand
+    getUnselectedCards(){
+        let retArr = [];
+        for(let card of cards){
+            if(card.firstChild != null && card.firstChild.offsetTop == 0){
+                let address = card.firstChild.src;    
+                let pattern = address.match(/\w?\w\w\.svg/g);   
+                retArr.push(Object.keys(cardDeck).find(key => cardDeck[key] === './svg/' + pattern));
+            }
+        }
+        return retArr;
+    }
+
     //lift cards for selection
     liftCards(){
         if(this.firstChild.style.bottom == '0px'){
@@ -259,11 +275,37 @@ class Graphics {
         }
     }
 
+    addDiscardToHand(){
+        for(let card of cards){
+            if (card.firstChild != null){
+                continue;
+            } else {
+                card.appendChild(movedCard);
+                card.firstChild.style.left = (card.firstChild.offsetLeft - 150) + 'px';
+            }
+        }
+    }
+
     //moves the card over 150px
     //need to send something to know that user wants to pick up this card
-    discardClick(){    
-        let pos = dCard2.firstChild.offsetLeft;
-        dCard2.firstChild.style.left = (pos + 150) + 'px';
+    discardClick(){ 
+        if (this.discardClicked == false){
+            this.discardClicked = true;
+            movedCard = dCard2.lastChild;  
+            let pos = movedCard.offsetLeft;
+            movedCard.style.left = (pos + 150) + 'px';
+        } else {
+            this.discardClicked = false;
+            movedCard.style.left = (movedCard.offsetLeft - 150) + 'px';
+        }
+    }
+
+    get getDiscardClicked(){
+        return this.discardClicked;
+    }
+    
+    setDiscardClicked(val){
+        this.discardClicked = val;
     }
 }
 

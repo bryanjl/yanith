@@ -52,6 +52,14 @@ class Dealer{
         return this.shuffledDeck;
     }
 
+    updateUserHand(sentArr){        
+        this.userHand = sentArr;
+    }
+
+    updateCompHand(sentArr){
+        this.compHand = sentArr;
+    }
+
     get getUserHand(){
         return this.userHand;
     }

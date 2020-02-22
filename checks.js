@@ -37,6 +37,37 @@ const cardPos = {
 
 
 class Checks {
+    checkAll(sentArr){
+        //takes the user array of cards and checks all the 
+        let paArr = this.pairs(sentArr);
+        let tArr = this.triples(sentArr);
+        let qArr = this.quads(sentArr);
+        let sArr = this.suit(sentArr);
+        let rArr = [];
+        if (sArr.length > 0){
+            rArr = this.runs(sArr);
+        }
+
+        if(paArr.length > 0 && sentArr.length == 2){
+            let handVal = this.handValue(paArr[0]);
+            return handVal;
+        } else if (tArr.length > 0 && sentArr.length == 3){
+            let handVal = this.handValue(tArr);
+            return handVal;
+        } else if (qArr.length > 0 && sentArr.length == 4){
+            let handVal = this.handValue(qArr);
+            return handVal;
+        } else if (rArr.length > 0){
+            let handVal = this.handValue(rArr);
+            return handVal;
+        } else if(sentArr.length == 1){
+            let handVal = this.handValue(sentArr)
+            return handVal;
+        } else {
+            return -1;
+        }
+    }
+
     pairs(sentArr = []){
         //cheks for pairs in an array
         //return an array of pairs [[],[]]
