@@ -77,7 +77,7 @@ class Dealer{
     }
 
     removeTopCard(){
-        return this.discardPile.shift();
+        this.discardPile.shift();
     }
 
     addToDiscard(val){

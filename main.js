@@ -64,23 +64,23 @@ function turnOnListeners(){
             handVal = check.checkAll(userArr);
             if (handVal == -1){
                 alert('You Cannot Play Those Cards Together')
-            } else {
-                dealer.addToDiscard(graphic.getSelectedCards());
-                graphic.moveToDiscard();
-                
+            } else {               
                 if(graphic.getDiscardClicked == false){
+                    dealer.addToDiscard(graphic.getSelectedCards());
+                    graphic.moveToDiscard();
                     graphic.shiftCards();
                     graphic.addCardToHand(dealer.nextCard);
                 } else {
+                    dealer.removeTopCard();
+                    dealer.addToDiscard(graphic.getSelectedCards());
+                    graphic.moveToDiscard();
                     graphic.setDiscardClicked(false);
                     graphic.shiftCards();
-                    dealer.removeTopCard();
                     graphic.addDiscardToHand();
                 }
-                
                 dealer.updateUserHand(graphic.getUnselectedCards());
                 console.log(dealer.getDiscardPile);
-                console.log(dealer.getShuffledDeck)
+                //console.log(dealer.getShuffledDeck)
                 console.log(dealer.getUserHand);
             }
         }       
