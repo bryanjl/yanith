@@ -31,8 +31,21 @@
     right: 25px;
 }
 
+#yanith{
+    position: absolute;
+    bottom: 50px;
+    right: 25px;
+}
+
 .card-contain{
     border: 1px solid black;
     position: absolute;
     
+}
+
+#declared-yan{
+    position: absolute;
+    margin: 0 auto;
+    left: 400px;
+    display: none;
 }

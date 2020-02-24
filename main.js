@@ -28,8 +28,10 @@ let card5 = document.getElementById('card5');
 
 //pointer for play hand button
 let playHandBtn = document.getElementById('play-hand');
+let yanithBtn = document.getElementById('yanith');
 
-
+//display yanith on screen
+let displayYan = document.getElementById('declared-yan');
 
 //new dealer
 //shuffle and deal to user and comp
@@ -50,6 +52,8 @@ let check = new Checks();
 
 let handVal;
 let discardClicked = false;
+
+let compHand = dealer.getCompHand;
 //turn on all event listeners for the user 
 function turnOnListeners(){
     //play hand button event listener
@@ -82,8 +86,19 @@ function turnOnListeners(){
                 console.log(dealer.getDiscardPile);
                 //console.log(dealer.getShuffledDeck)
                 console.log(dealer.getUserHand);
+                compTurn(compHand);
             }
         }       
+    });
+
+    yanithBtn.addEventListener('click', function(){
+        if(check.handValue(graphic.getUnselectedCards()) < 6){
+            console.log('YANITH');
+            displayYan.style.display = 'block';
+            graphic.showCompHand(compHand);
+        } else {
+            alert('You cant call Yanith yet');
+        }
     });
     
     //event listeners for user hand
@@ -136,6 +151,7 @@ function turnOffListeners(){
 
 function compTurn(compHand){
     //inttiate new player with hand from previous hand
+    //let compHand = dealer.getCompHand;
     let player1 = new Player(compHand, dealer.getTopCard);
     //check to see if using the discard card in the future will make a higher value
     //sets the state of discardPickup to true
@@ -213,7 +229,9 @@ function compTurn(compHand){
         }
     } else {
         //The current hand is under 5 and yanih is declared
-        return 'Yanith';
+        displayYan.style.display = 'block';
+        graphic.showCompHand(compHand);
+        console.log('Computer Calls Yanith');
     }
 }
 
@@ -221,7 +239,7 @@ function compTurn(compHand){
 
 //get the intital comphand
 //comphandwill be stored here for next turn
-let compHand = dealer.getCompHand;
+
 
 //A TEST TO SEE IF COMPUTER CAN GET THROUGH 10 HANDS
 // for(let i = 0; i<10; i++){
@@ -234,7 +252,7 @@ let compHand = dealer.getCompHand;
 //     }
 // }
 
-console.log('final hand: ' + compHand);
+//console.log('final hand: ' + compHand);
 
 
 

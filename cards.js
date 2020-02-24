@@ -153,7 +153,8 @@ card5.style.left = card5Space + 'px';
 
 
 let cards = [card1, card2, card3, card4, card5];
-let cCards =[cCard1, cCard2, cCard3, cCard4, cCard5];
+let cCards = [cCard1, cCard2, cCard3, cCard4, cCard5];
+let spaceArr = [card1Space, card2Space, card3Space, card4Space, card5Space];
 
 let movedCard;
 
@@ -242,7 +243,12 @@ class Graphics {
         for(let card of cards){
             if(card.firstChild != null && card.firstChild.offsetTop == 0){
                 let address = card.firstChild.src;    
-                let pattern = address.match(/\w?\w\w\.svg/g);   
+                let pattern = address.match(/\w?\w\w\.svg/g);  
+                if(pattern == 'red.svg'){
+                    pattern = 'joker_red.svg';
+                }  else if (pattern == 'ack.svg'){
+                    pattern = 'joker_black.svg';
+                }
                 retArr.push(Object.keys(cardDeck).find(key => cardDeck[key] === './svg/' + pattern));
             }
         }
@@ -276,10 +282,13 @@ class Graphics {
     }
 
     addDiscardToHand(){
+        let pos = 0;
         for(let card of cards){
             if (card.firstChild != null){
+                pos++;
                 continue;
             } else {
+               // movedCard.style.right = (spaceArr[pos] + 150) + 'px';
                 card.appendChild(movedCard);
                 card.firstChild.style.left = (card.firstChild.offsetLeft - 150) + 'px';
             }
@@ -297,6 +306,16 @@ class Graphics {
         } else {
             this.discardClicked = false;
             movedCard.style.left = (movedCard.offsetLeft - 150) + 'px';
+        }
+    }
+
+    showCompHand(cardArr){
+        let pos = 0;
+        for(let card of cardArr){
+            let cardPicture = document.createElement('img');
+            cardPicture.src = cardDeck[card];
+            cCards[pos].appendChild(cardPicture);
+            pos++
         }
     }
 
