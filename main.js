@@ -2,6 +2,7 @@ import { Graphics } from './cards.js';
 import { Dealer } from './dealer.js';
 import { Player } from './player.js';
 import { Checks } from './checks.js';
+import { Scores } from './scoreboard.js'
 
 
 //pointers to document elements 
@@ -29,32 +30,66 @@ let card5 = document.getElementById('card5');
 //pointer for play hand button
 let playHandBtn = document.getElementById('play-hand');
 let yanithBtn = document.getElementById('yanith');
+let newRoundBtn = document.getElementById('new-round');
+let newGameBtn = document.getElementById('new-game');
 
 //display yanith on screen
 let displayYan = document.getElementById('declared-yan');
 
-//new dealer
-//shuffle and deal to user and comp
-let dealer = new Dealer();
-dealer.shuffle();
-dealer.deal();
+
+
+
 
 //intitialize graphics
 //set init for comp, discard, user
 let graphic = new Graphics();
-graphic.userInit(dealer.getUserHand);
-graphic.discardInit(dealer.getDiscardPile[0]);
-graphic.compInit();
-turnOnListeners();
+
 
 //intialize checks module;
 let check = new Checks();
 
+//intialize scoreboard
+let score = new Scores();
+
+// score.addScoreToBoard(14, 0);
+// score.addScoreToBoard(14, 0);
+// score.addScoreToBoard(14, 0);
+// score.addScoreToBoard(14, 0);
+// score.addScoreToBoard(14, 0);
+
 let handVal;
 let discardClicked = false;
 
-let compHand = dealer.getCompHand;
+let compHand; 
+let dealer;
 //turn on all event listeners for the user 
+
+
+newGameBtn.addEventListener('click', function(){
+    graphic.removeUserChilds();
+    graphic.removeCompChilds();
+    graphic.removeDiscardChilds();
+});
+
+newRoundBtn.addEventListener('click', function() {
+    //new dealer
+    //shuffle and deal to user and comp
+    displayYan.style.display = 'none';
+    dealer = new Dealer();
+
+    compHand = dealer.getCompHand;
+
+    
+
+    dealer.shuffle();
+    dealer.deal();
+
+    graphic.userInit(dealer.getUserHand);
+    graphic.discardInit(dealer.getDiscardPile[0]);
+    graphic.compInit();
+    turnOnListeners();
+});
+
 function turnOnListeners(){
     //play hand button event listener
     //listen to the play hand button
@@ -81,6 +116,8 @@ function turnOnListeners(){
                     graphic.setDiscardClicked(false);
                     graphic.shiftCards();
                     graphic.addDiscardToHand();
+                    
+                    
                 }
                 dealer.updateUserHand(graphic.getUnselectedCards());
                 console.log(dealer.getDiscardPile);
@@ -96,6 +133,7 @@ function turnOnListeners(){
             console.log('YANITH');
             displayYan.style.display = 'block';
             graphic.showCompHand(compHand);
+            score.compareScores('user', check.handValue(dealer.getUserHand), check.handValue(compHand));
         } else {
             alert('You cant call Yanith yet');
         }
@@ -115,10 +153,7 @@ function turnOnListeners(){
         graphic.discardClick();
     });
 
-    //event listener for clicking the shuffled deck
-    dCard1.firstChild.addEventListener('click', function(){
-        addCardToHand('AH');
-    });
+
 }
 
 
@@ -232,6 +267,7 @@ function compTurn(compHand){
         displayYan.style.display = 'block';
         graphic.showCompHand(compHand);
         console.log('Computer Calls Yanith');
+        score.compareScores('comp', check.handValue(dealer.getUserHand), check.handValue(compHand));
     }
 }
 

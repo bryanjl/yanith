@@ -181,7 +181,10 @@ class Graphics {
     //sets up computer grahics
     compInit(){
         let compDiv = [cCard1, cCard2, cCard3, cCard4, cCard5];
-        for(let div of compDiv){        
+        for(let div of compDiv){       
+            if(div.firstChild != null){
+                div.removeChild(div.firstChild);
+            } 
             let compCard = document.createElement('img');
             compCard.src = './svg/cardback_blue.svg';
             div.appendChild(compCard);
@@ -197,6 +200,7 @@ class Graphics {
                 i = -1;
             } 
         }    
+        
     }
 
     removeCompCards(length){
@@ -228,6 +232,7 @@ class Graphics {
     getSelectedCards(){
         let retArr = [];
         for(let card of cards){
+            console.log(`first child:${card.firstChild}  ******  off set top ${card.firstChild.offsetTop}` );
             if(card.firstChild != null && card.firstChild.offsetTop != 0){
                 let address = card.firstChild.src;    
                 let pattern = address.match(/\w?\w\w\.svg/g);   
@@ -319,6 +324,27 @@ class Graphics {
         }
     }
 
+    removeUserChilds(){
+        for(let card of cards){
+            if (card.firstChild != null){
+                card.removeChild(card.firstChild);
+            }
+        }
+    }
+
+    removeCompChilds(){
+        for(let card of cCards){
+            if(card.firstChild != null){
+                card.removeChild(card.firstChild);
+            }
+        }
+    }
+
+    removeDiscardChilds(){
+        while(dCard2.firstChild != null){
+            dCard2.removeChild(dCard2.firstChild);    
+        }
+    }
     get getDiscardClicked(){
         return this.discardClicked;
     }
