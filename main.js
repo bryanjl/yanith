@@ -77,12 +77,14 @@ newRoundBtn.addEventListener('click', function() {
     displayYan.style.display = 'none';
     dealer = new Dealer();
 
+    dealer.shuffle();
+    dealer.deal();
+
     compHand = dealer.getCompHand;
 
     
 
-    dealer.shuffle();
-    dealer.deal();
+    
 
     graphic.userInit(dealer.getUserHand);
     graphic.discardInit(dealer.getDiscardPile[0]);
@@ -97,6 +99,7 @@ function turnOnListeners(){
     //shift the cards in the user hand
     playHandBtn.addEventListener('click', function(){
         let userArr = graphic.getSelectedCards(); 
+        console.log(userArr);
         if(userArr.length == 0){
             alert('Please Select Cards to Play');
         } else {            
@@ -108,6 +111,7 @@ function turnOnListeners(){
                     dealer.addToDiscard(graphic.getSelectedCards());
                     graphic.moveToDiscard();
                     graphic.shiftCards();
+                    //console.log()
                     graphic.addCardToHand(dealer.nextCard);
                 } else {
                     dealer.removeTopCard();
@@ -115,18 +119,16 @@ function turnOnListeners(){
                     graphic.moveToDiscard();
                     graphic.setDiscardClicked(false);
                     graphic.shiftCards();
-                    graphic.addDiscardToHand();
-                    
-                    
+                    graphic.addDiscardToHand();     
                 }
                 dealer.updateUserHand(graphic.getUnselectedCards());
-                console.log(dealer.getDiscardPile);
+                console.log('dealer.getDiscardPile: ' + dealer.getDiscardPile);
                 //console.log(dealer.getShuffledDeck)
-                console.log(dealer.getUserHand);
+                console.log('dealer.getUserHand: ' + dealer.getUserHand);
                 compTurn(compHand);
             }
         }       
-    });
+    }, {once: true});
 
     yanithBtn.addEventListener('click', function(){
         if(check.handValue(graphic.getUnselectedCards()) < 6){
@@ -192,20 +194,20 @@ function compTurn(compHand){
     //sets the state of discardPickup to true
     player1.cardToPickup();
 
-    console.log(player1.pair);
-    console.log(player1.secondPair);
-    console.log(player1.triple);
-    console.log(player1.quad);
-    console.log(player1.run);
-    console.log(player1.highCard);
+    // console.log(player1.pair);
+    // console.log(player1.secondPair);
+    // console.log(player1.triple);
+    // console.log(player1.quad);
+    // console.log(player1.run);
+    // console.log(player1.highCard);
 
 
     
-    console.log(player1.cardHand);
-    console.log(player1.potHand);
-    console.log(player1.futureHand);
+    console.log('player1.cardHand: ' + player1.cardHand);
+    console.log('player1.potHand: ' + player1.potHand);
+    console.log('player1.futureHand: ' + player1.futureHand);
     
-    console.log(player1.discardPickup);
+    console.log('player1.discardPickup: ' + player1.discardPickup);
 
     if(player1.checkForYan() == -1){
         //get the position of thehighest hand value

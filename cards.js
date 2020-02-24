@@ -232,7 +232,7 @@ class Graphics {
     getSelectedCards(){
         let retArr = [];
         for(let card of cards){
-            console.log(`first child:${card.firstChild}  ******  off set top ${card.firstChild.offsetTop}` );
+            //console.log(`first child:${card.firstChild}  ******  off set top ${card.firstChild.offsetTop}` );
             if(card.firstChild != null && card.firstChild.offsetTop != 0){
                 let address = card.firstChild.src;    
                 let pattern = address.match(/\w?\w\w\.svg/g);   
