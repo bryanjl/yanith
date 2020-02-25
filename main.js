@@ -36,14 +36,9 @@ let newGameBtn = document.getElementById('new-game');
 //display yanith on screen
 let displayYan = document.getElementById('declared-yan');
 
-
-
-
-
 //intitialize graphics
 //set init for comp, discard, user
 let graphic = new Graphics();
-
 
 //intialize checks module;
 let check = new Checks();
@@ -51,21 +46,20 @@ let check = new Checks();
 //intialize scoreboard
 let score = new Scores();
 
+//some global variables
 let handVal;
-
-
 let compHand; 
 let dealer;
-//turn on all event listeners for the user 
-
 
 newGameBtn.addEventListener('click', function(){
-    graphic.removeUserChilds();
-    graphic.removeCompChilds();
-    graphic.removeDiscardChilds();
+
 });
 
 newRoundBtn.addEventListener('click', function() {
+    graphic.removeUserChilds();
+    graphic.removeCompChilds();
+    graphic.removeDiscardChilds();
+
     //new dealer
     //shuffle and deal to user and comp
     displayYan.style.display = 'none';
@@ -96,7 +90,6 @@ function userTurn(){
                 dealer.addToDiscard(graphic.getSelectedCards());
                 graphic.moveToDiscard();
                 graphic.shiftCards();
-                //console.log()
                 console.log('shuffled deck: ' + dealer.getShuffledDeck);
                 graphic.addCardToHand(dealer.nextCard);
             } else {
@@ -109,7 +102,6 @@ function userTurn(){
             }
             dealer.updateUserHand(graphic.getUnselectedCards());
             console.log('dealer.getDiscardPile: ' + dealer.getDiscardPile);
-            //console.log(dealer.getShuffledDeck)
             console.log('dealer.getUserHand: ' + dealer.getUserHand);
             turnOffListeners();
             compTurn(compHand);
@@ -121,8 +113,13 @@ function userYanith(){
     if(check.handValue(graphic.getUnselectedCards()) < 6){
         console.log('YANITH');
         displayYan.style.display = 'block';
+        displayYan.style.top = '400px';
+        
         graphic.showCompHand(compHand);
         score.compareScores('user', check.handValue(dealer.getUserHand), check.handValue(compHand));
+        graphic.setUserTotal(score.getUserTotal);
+        graphic.setCompTotal(score.getCompTotal);
+        turnOffListeners();
     } else {
         alert('You cant call Yanith yet');
     }
@@ -151,8 +148,6 @@ function turnOnListeners(){
 
     //event listener for a user click to the discard pile
     dCard2.addEventListener('click', discClick);
-
-
 }
 
 
@@ -256,9 +251,14 @@ function compTurn(compHand){
     } else {
         //The current hand is under 5 and yanih is declared
         displayYan.style.display = 'block';
+        
+        displayYan.style.top = '150px';
         graphic.showCompHand(compHand);
         console.log('Computer Calls Yanith');
         score.compareScores('comp', check.handValue(dealer.getUserHand), check.handValue(compHand));
+        graphic.setUserTotal(score.getUserTotal);
+        graphic.setCompTotal(score.getCompTotal);
+        turnOffListeners();
     }
     turnOnListeners();
 }

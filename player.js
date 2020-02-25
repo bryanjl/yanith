@@ -182,11 +182,11 @@ class Player {
         }else if(pos == 1){
             return this.secondPair.pairCards[1];
         }else if(pos == 2){
-            return this.triple.cardHand;
+            return this.triple.tripleCards;
         }else if(pos == 3){
-            return this.quad.cardHand;
+            return this.quad.quadCards;
         }else if(pos == 4){
-            return this.run.cardHand;
+            return this.run.runCards;
         }else if(pos == 5){
             return this.highCard.highestCard;
         }

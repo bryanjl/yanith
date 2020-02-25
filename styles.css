@@ -1,3 +1,7 @@
+* {
+    transition: all .1s ease;
+}
+
 .body{
     margin: 0;
     padding: 0;
@@ -14,10 +18,8 @@
     grid-template-rows: 1fr 1fr 1fr;
     align-items: center;
     justify-items: center;
-    position: relative;
-    
+    position: relative;    
 }
-
 
 .card-contain img{
     position: absolute;     
@@ -70,12 +72,31 @@
 }
 
 #user-scores{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(25, 1fr);
     grid-row-start: 1;
+    text-align: center;
+    grid-auto-flow: column;
+}
+
+#user-scores h3{
+    text-align: center;
+    grid-column-start: span 2;
+}
+
+#user-scores p{
+    padding: 0;
+    margin: 0;
 }
 
 #user-total{
+    display: grid;
+    grid-template-columns: 30% 70%;
     grid-row-start: 2;
-    border: 1px solid black;
+    justify-items: center;
+    align-items: center;
+    text-align: center;
 }
 
 #comp{
@@ -87,15 +108,32 @@
 }
 
 #comp-scores{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(25, 1fr);
     grid-row-start: 1;
+    text-align: center;
+    grid-auto-flow: column;
 }
 
+#comp-scores h3{
+    text-align: center;
+    grid-column-start: span 2;
+}
+
+#comp-scores p{
+    padding: 0;
+    margin: 0;
+}
 
 #comp-total{
+    display: grid;
+    grid-template-columns: 30% 70%;
     grid-row-start: 2;
-    border: 1px solid black;
+    justify-items: center;
+    align-items: center;
+    text-align: center;
 }
-
 
 #scoreboard h1{
     margin: 0 auto;

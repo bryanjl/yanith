@@ -298,6 +298,8 @@ class Graphics {
                // movedCard.style.right = (spaceArr[pos] + 150) + 'px';
                 card.appendChild(movedCard);
                 card.firstChild.style.left = (card.firstChild.offsetLeft - 150) + 'px';
+                break;
+                //movedCard = undefined;
             }
         }
     }
@@ -305,6 +307,7 @@ class Graphics {
     //moves the card over 150px
     //need to send something to know that user wants to pick up this card
     discardClick(){ 
+        
         if (this.discardClicked == false){
             this.discardClicked = true;
             movedCard = dCard2.lastChild;  
@@ -313,6 +316,7 @@ class Graphics {
         } else {
             this.discardClicked = false;
             movedCard.style.left = (movedCard.offsetLeft - 150) + 'px';
+            movedCard = undefined;
         }
     }
 
@@ -353,6 +357,14 @@ class Graphics {
     
     setDiscardClicked(val){
         this.discardClicked = val;
+    }
+
+    setUserTotal(score){
+        document.getElementById('user-total-disp').innerHTML = score;
+    }
+
+    setCompTotal(score){
+        document.getElementById('comp-total-disp').innerHTML = score;
     }
 }
 
