@@ -31,7 +31,7 @@ class Dealer{
         this.discardPile = discardPile;
     }
 
-    shuffle(o = cardDeck) {
+    shuffle(o = cardDeck.slice()) {
         for(var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
         this.shuffledDeck = o;
     };

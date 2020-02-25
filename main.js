@@ -51,14 +51,8 @@ let check = new Checks();
 //intialize scoreboard
 let score = new Scores();
 
-// score.addScoreToBoard(14, 0);
-// score.addScoreToBoard(14, 0);
-// score.addScoreToBoard(14, 0);
-// score.addScoreToBoard(14, 0);
-// score.addScoreToBoard(14, 0);
-
 let handVal;
-let discardClicked = false;
+
 
 let compHand; 
 let dealer;
@@ -82,64 +76,70 @@ newRoundBtn.addEventListener('click', function() {
 
     compHand = dealer.getCompHand;
 
-    
-
-    
-
     graphic.userInit(dealer.getUserHand);
     graphic.discardInit(dealer.getDiscardPile[0]);
     graphic.compInit();
     turnOnListeners();
 });
 
+function userTurn(){
+    let userArr = graphic.getSelectedCards(); 
+    console.log(userArr);
+    if(userArr.length == 0){
+        alert('Please Select Cards to Play');
+    } else {            
+        handVal = check.checkAll(userArr);
+        if (handVal == -1){
+            alert('You Cannot Play Those Cards Together')
+        } else {               
+            if(graphic.getDiscardClicked == false){
+                dealer.addToDiscard(graphic.getSelectedCards());
+                graphic.moveToDiscard();
+                graphic.shiftCards();
+                //console.log()
+                console.log('shuffled deck: ' + dealer.getShuffledDeck);
+                graphic.addCardToHand(dealer.nextCard);
+            } else {
+                dealer.removeTopCard();
+                dealer.addToDiscard(graphic.getSelectedCards());
+                graphic.moveToDiscard();
+                graphic.setDiscardClicked(false);
+                graphic.shiftCards();
+                graphic.addDiscardToHand();     
+            }
+            dealer.updateUserHand(graphic.getUnselectedCards());
+            console.log('dealer.getDiscardPile: ' + dealer.getDiscardPile);
+            //console.log(dealer.getShuffledDeck)
+            console.log('dealer.getUserHand: ' + dealer.getUserHand);
+            turnOffListeners();
+            compTurn(compHand);
+        }
+    } 
+}
+
+function userYanith(){
+    if(check.handValue(graphic.getUnselectedCards()) < 6){
+        console.log('YANITH');
+        displayYan.style.display = 'block';
+        graphic.showCompHand(compHand);
+        score.compareScores('user', check.handValue(dealer.getUserHand), check.handValue(compHand));
+    } else {
+        alert('You cant call Yanith yet');
+    }
+}
+
+function discClick(){
+    graphic.discardClick();
+}
+
 function turnOnListeners(){
     //play hand button event listener
     //listen to the play hand button
     //move the cards to discard -- the card on the right is always on top
     //shift the cards in the user hand
-    playHandBtn.addEventListener('click', function(){
-        let userArr = graphic.getSelectedCards(); 
-        console.log(userArr);
-        if(userArr.length == 0){
-            alert('Please Select Cards to Play');
-        } else {            
-            handVal = check.checkAll(userArr);
-            if (handVal == -1){
-                alert('You Cannot Play Those Cards Together')
-            } else {               
-                if(graphic.getDiscardClicked == false){
-                    dealer.addToDiscard(graphic.getSelectedCards());
-                    graphic.moveToDiscard();
-                    graphic.shiftCards();
-                    //console.log()
-                    graphic.addCardToHand(dealer.nextCard);
-                } else {
-                    dealer.removeTopCard();
-                    dealer.addToDiscard(graphic.getSelectedCards());
-                    graphic.moveToDiscard();
-                    graphic.setDiscardClicked(false);
-                    graphic.shiftCards();
-                    graphic.addDiscardToHand();     
-                }
-                dealer.updateUserHand(graphic.getUnselectedCards());
-                console.log('dealer.getDiscardPile: ' + dealer.getDiscardPile);
-                //console.log(dealer.getShuffledDeck)
-                console.log('dealer.getUserHand: ' + dealer.getUserHand);
-                compTurn(compHand);
-            }
-        }       
-    }, {once: true});
+    playHandBtn.addEventListener('click', userTurn);
 
-    yanithBtn.addEventListener('click', function(){
-        if(check.handValue(graphic.getUnselectedCards()) < 6){
-            console.log('YANITH');
-            displayYan.style.display = 'block';
-            graphic.showCompHand(compHand);
-            score.compareScores('user', check.handValue(dealer.getUserHand), check.handValue(compHand));
-        } else {
-            alert('You cant call Yanith yet');
-        }
-    });
+    yanithBtn.addEventListener('click', userYanith);
     
     //event listeners for user hand
     //lifts the cards the user selects
@@ -150,10 +150,7 @@ function turnOnListeners(){
     card5.addEventListener('click', graphic.liftCards);
 
     //event listener for a user click to the discard pile
-    dCard2.addEventListener('click', function() {
-        discardClicked = true;
-        graphic.discardClick();
-    });
+    dCard2.addEventListener('click', discClick);
 
 
 }
@@ -161,12 +158,11 @@ function turnOnListeners(){
 
 //turn off all the user's event listeners
 function turnOffListeners(){
-    //play hand button 
-    playHandBtn.removeEventListener('click', function(){
-        graphic.getSelectedCards(); 
-        graphic.moveToDiscard();
-        graphic.shiftCards();
-    });
+    //play hand button event listener
+    playHandBtn.removeEventListener('click', userTurn);
+
+    //yanith button listener
+    yanithBtn.removeEventListener('click', userYanith);
     
     //event listeners for user hand
     card1.removeEventListener('click', graphic.liftCards);
@@ -176,14 +172,7 @@ function turnOffListeners(){
     card5.removeEventListener('click', graphic.liftCards);
 
     //event listener for a user click to the discard pile
-    dCard2.removeEventListener('click', function() {
-        discardClick();
-    });
-
-    //event listener for clicking the shuffled deck
-    dCard1.firstChild.removeEventListener('click', function(){
-        addCardToHand('AH');
-    });
+    dCard2.removeEventListener('click', discClick);
 }
 
 function compTurn(compHand){
@@ -271,37 +260,5 @@ function compTurn(compHand){
         console.log('Computer Calls Yanith');
         score.compareScores('comp', check.handValue(dealer.getUserHand), check.handValue(compHand));
     }
+    turnOnListeners();
 }
-
-
-
-//get the intital comphand
-//comphandwill be stored here for next turn
-
-
-//A TEST TO SEE IF COMPUTER CAN GET THROUGH 10 HANDS
-// for(let i = 0; i<10; i++){
-//     let yan = compTurn(compHand);
-//     console.log(i);
-//     console.log('discard: ' + dealer.getDiscardPile);
-//     if(yan == 'Yanith'){
-//         console.log('YANITH');
-//         break;
-//     }
-// }
-
-//console.log('final hand: ' + compHand);
-
-
-
-
-
-
-
-
-
-
-// compTurn(compHand);
-
-// console.log(compHand);
-// console.log(dealer.getDiscardPile);

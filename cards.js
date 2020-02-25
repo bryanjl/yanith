@@ -161,6 +161,7 @@ let movedCard;
 class Graphics {
     //sets up user cards graphics
     userInit(cardArr = []){
+        console.log('cardArr userINIT' + cardArr);
         this.discardClicked = false;
         let pos = 0;
         for(let card of cardArr){
@@ -274,6 +275,7 @@ class Graphics {
     //pickup card from deck
     //sent a string of the card value
     addCardToHand(cardToPickUp){
+        console.log('dealer.getnextcard ' + cardToPickUp);
         for(let card of cards){
             if (card.firstChild != null){
                 continue;
