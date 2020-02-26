@@ -52,7 +52,7 @@ let compHand;
 let dealer;
 
 newGameBtn.addEventListener('click', function(){
-
+    
 });
 
 newRoundBtn.addEventListener('click', function() {
@@ -69,11 +69,16 @@ newRoundBtn.addEventListener('click', function() {
     dealer.deal();
 
     compHand = dealer.getCompHand;
-
-    graphic.userInit(dealer.getUserHand);
-    graphic.discardInit(dealer.getDiscardPile[0]);
-    graphic.compInit();
-    turnOnListeners();
+    graphic.cardToUser();
+    graphic.cardToComp();
+    setTimeout(() => {
+        graphic.userInit(dealer.getUserHand);
+        graphic.discardInit(dealer.getDiscardPile[0]);
+        graphic.compInit();
+        graphic.removeDeckChilds();
+        turnOnListeners();
+    }, 600);
+    
 });
 
 function userTurn(){
@@ -100,11 +105,18 @@ function userTurn(){
                 graphic.shiftCards();
                 graphic.addDiscardToHand();     
             }
-            dealer.updateUserHand(graphic.getUnselectedCards());
-            console.log('dealer.getDiscardPile: ' + dealer.getDiscardPile);
-            console.log('dealer.getUserHand: ' + dealer.getUserHand);
-            turnOffListeners();
-            compTurn(compHand);
+            
+            //console.log('dealer.getDiscardPile: ' + dealer.getDiscardPile);
+            //console.log('dealer.getUserHand: ' + dealer.getUserHand);
+            setTimeout(() => {
+                //just a need a single listener to wait
+                //for click to add card to discard pile after drawn
+                dealer.updateUserHand(graphic.getUnselectedCards());
+                turnOffListeners();
+                compTurn(compHand);
+            }, 1500);
+
+            
         }
     } 
 }
@@ -175,6 +187,7 @@ function turnOffListeners(){
 function compTurn(compHand){
     //inttiate new player with hand from previous hand
     //let compHand = dealer.getCompHand;
+    console.log(dealer.getUserHand);
     let player1 = new Player(compHand, dealer.getTopCard);
     //check to see if using the discard card in the future will make a higher value
     //sets the state of discardPickup to true
@@ -247,7 +260,12 @@ function compTurn(compHand){
             graphic.moveCompToDiscard(toPile[0]);
             player1.pickUpCard(dealer.nextCard);            
             //set compHand to the current hand for next turn
-            graphic.removeCompCards(player1.getCardHand.length);
+            graphic.hideCompCards(player1.getCardHand.length-1);
+            graphic.dealCompCard(player1.getCardHand.length-1);
+            setTimeout(() => {
+                graphic.removeCompCards(player1.getCardHand.length);
+                graphic.showCompCards(player1.getCardHand.length-1);
+            }, 600);
             compHand = player1.getCardHand;            
         }
     } else {

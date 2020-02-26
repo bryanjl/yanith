@@ -200,8 +200,23 @@ class Graphics {
                 cards[i].appendChild(cards[i+1].firstChild);
                 i = -1;
             } 
-        }    
-        
+        }            
+    }
+
+    hideCompCards(length){
+        for(let i = 0; i<5; i++){
+            if(i>=length && cCards[i].firstChild != null){
+                cCards[i].firstChild.style.display = 'none';
+            }
+        }
+    }
+
+    showCompCards(length){
+        for(let i = 0; i<5; i++){
+            if(i>=length && cCards[i].firstChild != null){
+                cCards[i].firstChild.style.display = 'block';
+            }
+        }
     }
 
     removeCompCards(length){
@@ -223,8 +238,17 @@ class Graphics {
         for(let card of cards){
             if(card.firstChild != null && card.firstChild.offsetTop != 0){
                 card.firstChild.style.boxShadow = 'none';
+                
+                //add animation here
+                // card.firstChild.style.transition = 'all 1s';
+                // card.firstChild.style.top = dCard2.offsetTop + 'px';
+                // card.firstChild.style.left = dCard2.offsetLeft + 'px';
+                //this.userToDiscard(card);
+                //timeout here
                 card.firstChild.style.bottom = '0px';
-                dCard2.appendChild(card.firstChild);
+                    dCard2.appendChild(card.firstChild);
+                
+                
             }
         }
     }
@@ -282,7 +306,13 @@ class Graphics {
             } else {
                 let pickupCard = document.createElement('img');
                 pickupCard.src = cardDeck[cardToPickUp];
-                card.appendChild(pickupCard);
+                //add animation here
+                this.dealUserCard(card);
+                setTimeout(() => {
+                    this.removeSingleDeckChilds();
+                    card.appendChild(pickupCard);
+                }, 600);
+                
                 break;
             }
         }
@@ -351,6 +381,20 @@ class Graphics {
             dCard2.removeChild(dCard2.firstChild);    
         }
     }
+
+    removeDeckChilds(){
+        console.log(dCard1.childElementCount);
+        let toDel = document.getElementById('board-table');
+        for(let i = 0; i<10; i++){
+            toDel.removeChild(toDel.lastChild);
+        }
+    }
+
+    removeSingleDeckChilds(){
+        let toDel = document.getElementById('board-table');
+        toDel.removeChild(toDel.lastChild);
+    }
+
     get getDiscardClicked(){
         return this.discardClicked;
     }
@@ -365,6 +409,114 @@ class Graphics {
 
     setCompTotal(score){
         document.getElementById('comp-total-disp').innerHTML = score;
+    }
+
+    cardToUser(){
+        for(let card of cards){        
+            let moveCard = document.createElement('img');
+            moveCard.src = './svg/cardback_blue.svg';
+            moveCard.style.width = cardWidth + 'px';
+            moveCard.style.height = (boardHeight/6) + 'px';
+            moveCard.style.position = 'absolute';
+            moveCard.className = 'del';
+            document.getElementById('board-table').appendChild(moveCard);
+            let dCardPosTop = dCard1.offsetTop;
+            let dCardPosLeft = dCard1.offsetLeft;
+            moveCard.style.top = dCardPosTop + 'px';
+            moveCard.style.left = dCardPosLeft + 'px';
+            moveCard.style.transition = 'all 1s';
+
+            let posToTop = card.offsetTop;
+            let posToLeft = card.offsetLeft;
+
+            moveCard.style.left = posToLeft + 'px';
+            moveCard.style.top = posToTop + 'px';
+
+            moveCard.style.opacity = '0';
+        }
+    }
+
+    cardToComp(){
+        for(let card of cCards){        
+            let moveCard = document.createElement('img');
+            moveCard.src = './svg/cardback_blue.svg';
+            moveCard.style.width = cardWidth + 'px';
+            moveCard.style.height = (boardHeight/6) + 'px';
+            moveCard.style.position = 'absolute';
+            document.getElementById('board-table').appendChild(moveCard);
+            let dCardPosTop = dCard1.offsetTop;
+            let dCardPosLeft = dCard1.offsetLeft;
+            moveCard.style.top = dCardPosTop + 'px';
+            moveCard.style.left = dCardPosLeft + 'px';
+            moveCard.style.opacity = '1';
+            moveCard.style.transition = 'all 1s';
+
+            let posToTop = card.offsetTop;
+            let posToLeft = card.offsetLeft;
+
+            moveCard.style.left = posToLeft + 'px';
+            moveCard.style.top = posToTop + 'px';
+            // moveCard.style.transition = 'all 1s';
+            //moveCard.style.opacity = '0';
+
+            
+        }
+    }
+
+    dealUserCard(card){
+        let moveCard = document.createElement('img');
+        moveCard.src = './svg/cardback_blue.svg';
+        moveCard.style.width = cardWidth + 'px';
+        moveCard.style.height = (boardHeight/6) + 'px';
+        moveCard.style.position = 'absolute';
+        document.getElementById('board-table').appendChild(moveCard);
+        let dCardPosTop = dCard1.offsetTop;
+        let dCardPosLeft = dCard1.offsetLeft;
+        moveCard.style.top = dCardPosTop + 'px';
+        moveCard.style.left = dCardPosLeft + 'px';
+        moveCard.style.opacity = '1';
+        moveCard.style.transition = 'all 1s';
+
+        let posToTop = card.offsetTop;
+        let posToLeft = card.offsetLeft;
+
+        moveCard.style.left = posToLeft + 'px';
+        moveCard.style.top = posToTop + 'px';
+        moveCard.style.opacity = '0';
+    }
+
+
+    dealCompCard(pos){
+        let card = cCards[pos];
+        let moveCard = document.createElement('img');
+        moveCard.src = './svg/cardback_blue.svg';
+        moveCard.style.width = cardWidth + 'px';
+        moveCard.style.height = (boardHeight/6) + 'px';
+        moveCard.style.position = 'absolute';
+        document.getElementById('board-table').appendChild(moveCard);
+        let dCardPosTop = dCard1.offsetTop;
+        let dCardPosLeft = dCard1.offsetLeft;
+        moveCard.style.top = dCardPosTop + 'px';
+        moveCard.style.left = dCardPosLeft + 'px';
+        moveCard.style.opacity = '1';
+        moveCard.style.transition = 'all 1s';
+
+        let posToTop = card.offsetTop;
+        let posToLeft = card.offsetLeft;
+
+        moveCard.style.left = posToLeft + 'px';
+        moveCard.style.top = posToTop + 'px';
+        moveCard.style.opacity = '0';
+    }
+
+    userToDiscard(sentCard){
+        let posToTop = dCard2.offsetTop;
+        let posToLeft = dCard2.offsetLeft;
+        console.log(`${sentCard} // ${posToTop}  //  ${posToLeft}`)
+        
+        sentCard.firstChild.style.transition = 'all 1s';
+        sentCard.firstChild.style.top = posToTop + 'px';
+        sentCard.firstChild.style.left = posToLeft + 'px';
     }
 }
 
