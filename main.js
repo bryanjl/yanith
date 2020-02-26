@@ -117,6 +117,8 @@ function userYanith(){
         
         graphic.showCompHand(compHand);
         score.compareScores('user', check.handValue(dealer.getUserHand), check.handValue(compHand));
+        score.checkFourWins();
+        score.reduceScoreCheck();
         graphic.setUserTotal(score.getUserTotal);
         graphic.setCompTotal(score.getCompTotal);
         turnOffListeners();
@@ -256,6 +258,8 @@ function compTurn(compHand){
         graphic.showCompHand(compHand);
         console.log('Computer Calls Yanith');
         score.compareScores('comp', check.handValue(dealer.getUserHand), check.handValue(compHand));
+        score.checkFourWins();
+        score.reduceScoreCheck();
         graphic.setUserTotal(score.getUserTotal);
         graphic.setCompTotal(score.getCompTotal);
         turnOffListeners();

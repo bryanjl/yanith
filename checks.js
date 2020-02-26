@@ -165,8 +165,8 @@ class Checks {
         for(let i = 0; i<sentArr.length; i++){
             tempArr.push(sentArr[i]);
             for(let j = i+1; j<sentArr.length; j++){
-                let suit = tempArr[0].charAt(1);
-                if(suit == sentArr[j].charAt(1)){
+                let suit = tempArr[0].charAt(tempArr[0].length - 1);
+                if(suit == sentArr[j].charAt(sentArr[j].length - 1)){
                     tempArr.push(sentArr[j]);
                 }                
             }
