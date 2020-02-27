@@ -91,7 +91,7 @@ newRoundBtn.addEventListener('click', function() {
 
 function userTurn(){
     let userArr = graphic.getSelectedCards(); 
-    console.log(userArr);
+    //console.log(userArr);
     if(userArr.length == 0){
         alert('Please Select Cards to Play');
     } else {            

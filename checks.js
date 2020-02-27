@@ -184,8 +184,20 @@ class Checks {
         //returns a sorted array of the run if true
         //returns empty array if no run found
         sentArr.sort((a,b) => cardPos[a.charAt(0)] - cardPos[b.charAt(0)]);
-        if(sentArr.length>=3){
-            let x = cardPos[sentArr[0].charAt(0)];
+        
+        //need to be able to use aces for low runs and high runs
+        //how to do?
+        
+        if(sentArr.length >= 3){
+            let x = cardPos[sentArr[0].charAt(0)];   
+            //check to see if you can use the ace as a low card for run
+            if(x === 2 && cardPos[sentArr[sentArr.length-1].charAt(0)] === 14){
+                let temp = sentArr[sentArr.length-1];
+                sentArr.pop();
+                sentArr.unshift(temp);
+                x = 1;
+            }
+            //check for the run using card positions
             for(let i = 1; i<sentArr.length; i++){
                 let y = cardPos[sentArr[i].charAt(0)];
                 if (y == x+1){
