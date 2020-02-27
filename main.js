@@ -76,7 +76,15 @@ newRoundBtn.addEventListener('click', function() {
         graphic.discardInit(dealer.getDiscardPile[0]);
         graphic.compInit();
         graphic.removeDeckChilds();
-        turnOnListeners();
+        console.log(score.compWinCount);
+        console.log(score.userWinCount);
+        if(score.compWinCount > score.userWinCount){
+            setTimeout(() => {
+                compTurn(compHand);
+            }, 1000);            
+        } else {
+            turnOnListeners();
+        }
     }, 600);
     
 });
@@ -96,7 +104,21 @@ function userTurn(){
                 graphic.moveToDiscard();
                 graphic.shiftCards();
                 console.log('shuffled deck: ' + dealer.getShuffledDeck);
-                graphic.addCardToHand(dealer.nextCard);
+                let dealersNextCard = dealer.nextCard;
+                let newestCard = graphic.addCardToHand(dealersNextCard);
+                //this allows you to click the newest card dealt
+                //if its the same as the discardpil top card
+                //youre allowed to lay it down
+                newestCard.addEventListener('click', newCardClick);
+                function newCardClick() {
+                    if(dealersNextCard.charAt(0) === dealer.getDiscardPile[0].charAt(0)){
+                        dealer.addToDiscard(dealersNextCard);
+                        dCard2.appendChild(newestCard.firstChild);
+                    }                    
+                }
+                setTimeout(() => {
+                    newestCard.removeEventListener('click', newCardClick);
+                }, 1500);
             } else {
                 dealer.removeTopCard();
                 dealer.addToDiscard(graphic.getSelectedCards());
@@ -105,18 +127,11 @@ function userTurn(){
                 graphic.shiftCards();
                 graphic.addDiscardToHand();     
             }
-            
-            //console.log('dealer.getDiscardPile: ' + dealer.getDiscardPile);
-            //console.log('dealer.getUserHand: ' + dealer.getUserHand);
             setTimeout(() => {
-                //just a need a single listener to wait
-                //for click to add card to discard pile after drawn
                 dealer.updateUserHand(graphic.getUnselectedCards());
                 turnOffListeners();
                 compTurn(compHand);
             }, 1500);
-
-            
         }
     } 
 }
@@ -229,6 +244,12 @@ function compTurn(compHand){
                         //if sending the a value to this function it shouldnt count it in its calcs
                         //this way it can find the next highest hand
                         //get the position of thehighest hand value
+
+
+                        //it gets true then just uses the same card anyways
+                        //need to get a hand that doesnt contain the same cards
+
+
                         highestHand = player1.highestHand(highestHand);
                         //use position to get an array of cards with highest value
                         toDiscard = player1.getHandToDiscard(highestHand);

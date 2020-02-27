@@ -311,9 +311,10 @@ class Graphics {
                 setTimeout(() => {
                     this.removeSingleDeckChilds();
                     card.appendChild(pickupCard);
+                    
                 }, 600);
-                
-                break;
+                return card;
+                //break;
             }
         }
     }

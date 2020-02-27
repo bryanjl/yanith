@@ -11,7 +11,7 @@ class Scores {
         let newUserScore = document.createElement('p');
         newUserScore.innerHTML = userScore;
         userBoard.appendChild(newUserScore);
-        this.userTotal += userScore;
+        this.userTotal += Math.floor(userScore);
     }
 
     addScoreToCompBoard(compScore){
@@ -19,7 +19,7 @@ class Scores {
         let newCompScore = document.createElement('p');
         newCompScore.innerHTML = compScore;
         compBoard.appendChild(newCompScore);
-        this.compTotal += compScore;
+        this.compTotal += Math.floor(compScore);
     }
 
     compareScores(whoCalled, userScore, compScore){
@@ -56,12 +56,10 @@ class Scores {
     }
 
     checkFourWins(){
-        if(this.compWinCount == 4){
+        if(this.compWinCount != 0 && this.compWinCount % 4 == 0){
             this.compTotal = this.compTotal / 2;
-            this.compWinCount = 0;
-        } else if(this.userWinCount == 4){
+        } else if(this.userWinCount != 0 && this.userWinCount % 4 == 0){
             this.userTotal = this.userTotal / 2;
-            this.userWinCount = 0;
         }
     }
 
