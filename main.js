@@ -90,6 +90,7 @@ newRoundBtn.addEventListener('click', function() {
 });
 
 function userTurn(){
+    
     let userArr = graphic.getSelectedCards(); 
     //console.log(userArr);
     if(userArr.length == 0){
@@ -208,7 +209,8 @@ function compTurn(compHand){
     //sets the state of discardPickup to true
     player1.cardToPickup();
 
-    // console.log(player1.pair);
+    console.log('pair in hand: ' + player1.pair.pairCards);
+    console.log('potential pair' + player1.futureHand.pair.pairCards);
     // console.log(player1.secondPair);
     // console.log(player1.triple);
     // console.log(player1.quad);
@@ -236,28 +238,27 @@ function compTurn(compHand){
             //compare the hands to see if they contain the same hands
             //gets boolean of true if hands contain the same card
             //gets boolean false if hands do not contain the same card
+           // console.log('comparehands:  ' + player1.compareHands(futureCards, toDiscard));
+           // console.log(`future cards:  ${futureCards} ${futureCards.length}, toDiscard: ${toDiscard} ${toDiscard.length}`);
             if(player1.compareHands(futureCards, toDiscard)){
                 //if true is recieved --> need to go back to get next highest hand to discard
                 //turn into loop and keep trying until the hand is not the same;
-                for(let i = 0; i<6; i++){
-                    if(player1.compareHands(futureCards, toDiscard)){
-                        //if sending the a value to this function it shouldnt count it in its calcs
-                        //this way it can find the next highest hand
-                        //get the position of thehighest hand value
-
-
-                        //it gets true then just uses the same card anyways
-                        //need to get a hand that doesnt contain the same cards
-
-
-                        highestHand = player1.highestHand(highestHand);
-                        //use position to get an array of cards with highest value
-                        toDiscard = player1.getHandToDiscard(highestHand);
-                    } else {
-                        break;
-                    }
+                //send the position its not allowed to be
+                
+                
+                highestHand = player1.highestHand(highestHand);
+                //use position to get an array of cards with highest value
+                
+               // console.log(`tempcard ${tempCard}`);
+                if(highestHand == -1 && compHand.length > 1) {
+                    console.log(`toDiscard ${toDiscard}`);
+                    toDiscard = check.secondHighCard(compHand);
+                    console.log(`toDiscard ${toDiscard}`);
+                } else {
+                    toDiscard = player1.getHandToDiscard(highestHand);
                 }
-            } else {
+
+                console.log('im here');
                 //discard the hand if false is recieved
                 let toPile = player1.discard(toDiscard);
                 //pickup from discard pile
@@ -272,8 +273,27 @@ function compTurn(compHand){
                 graphic.moveCompToDiscard(toPile[0]);            
                 //set compHand to the current hand in player for next turn
                 compHand = player1.getCardHand;
+                console.log(`comp hand:  ${compHand}`);
+                
+                
+            } else { //if compareHands is false
+                //discard the hand if false is recieved
+                let toPile = player1.discard(toDiscard);
+                //pickup from discard pile
+                player1.pickUpCard(dealer.getTopCard);
+                //remove the card from the discardpile
+                dealer.removeTopCard();
+                //add the discarded cards to the discard pile
+                dealer.addToDiscard(toPile);
+                
+                //console.log(`to pile: ${toPile[0]}`);
+                graphic.removeCompCards(player1.getCardHand.length);
+                graphic.moveCompToDiscard(toPile[0]);            
+                //set compHand to the current hand in player for next turn
+                compHand = player1.getCardHand;
+                console.log(`comp hand:  ${compHand}`);
             }
-        } else {
+        } else { //if player.discard pick up = false
             //discard highest hand
             //pickup card from deck
             let toPile = player1.discard(toDiscard);
@@ -287,9 +307,10 @@ function compTurn(compHand){
                 graphic.removeCompCards(player1.getCardHand.length);
                 graphic.showCompCards(player1.getCardHand.length-1);
             }, 600);
-            compHand = player1.getCardHand;            
+            compHand = player1.getCardHand;   
+            console.log(`comp hand:  ${compHand}`);         
         }
-    } else {
+    } else { //if yanith is called
         //The current hand is under 5 and yanih is declared
         displayYan.style.display = 'block';
         

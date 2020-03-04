@@ -25,20 +25,24 @@ class Scores {
     compareScores(whoCalled, userScore, compScore){
         if(userScore < compScore && whoCalled == 'user'){
             this.addScoreToUserBoard(0);
-            this.userWinCount++;
             this.addScoreToCompBoard(compScore);
+            this.userWinCount++;
+            this.compWinCount = 0;
         }else if(compScore < userScore && whoCalled == 'comp'){
             this.addScoreToCompBoard(0);
             this.addScoreToUserBoard(userScore);
             this.compWinCount++;
+            this.userWinCount = 0;
         }else if(userScore > compScore && whoCalled == 'user'){
             this.addScoreToUserBoard(userScore + 50);
             this.addScoreToCompBoard(0);
             this.compWinCount++;
+            this.userWinCount = 0;
         }else if(compScore > userScore && whoCalled == 'comp'){
             this.addScoreToUserBoard(0);
             this.addScoreToCompBoard(compScore + 50);
             this.userWinCount++;
+            this.compWinCount = 0;
         }else if(compScore = userScore){
             this.addScoreToUserBoard(0);
             this.addScoreToCompBoard(0);
@@ -49,9 +53,9 @@ class Scores {
 
     reduceScoreCheck(){
         if(this.userTotal == 100 ||this.userTotal == 200){
-            this.userTotal = this.userTotal / 2;
+            this.userTotal = Math.floor(this.userTotal / 2);
         } else if(this.compTotal == 100 || this.compTotal == 200){
-            this.compTotal = this.compTotal / 2;
+            this.compTotal = Math.florr(this.compTotal / 2);
         }
     }
 

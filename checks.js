@@ -139,6 +139,13 @@ class Checks {
         return highCardArr;
     }
 
+    secondHighCard(sentArr){
+        sentArr.sort((a,b) => cardValues[b.charAt(0)] - cardValues[a.charAt(0)]);
+        let retArr = [];
+        retArr.push(sentArr[1]);
+        return retArr;
+    }
+
     lowCard(sentArr = []){
         //returns the lowest card from the array that was sent
         sentArr.sort((a,b) => cardValues[a.charAt(0)] - cardValues[b.charAt(0)]);
@@ -227,12 +234,12 @@ class Checks {
         }
     }
 
-    doesHandContain(futureHand, toDiscard){
+    doesHandContain(futureHand = [], toDiscard = []){
         //check to see if the cards to discard are needed for the next turn
         //return true if hand does contain the same card
         //return false if hand doesn't contain any of the same cards
-        for(let i = 0; i<futureHand; i++){
-            for(let j = i+1; j<toDiscard; j++){
+        for(let i = 0; i<futureHand.length; i++){
+            for(let j = 0; j<toDiscard.length; j++){
                 if(futureHand[i] == toDiscard[j]){
                     return true;
                 }    
